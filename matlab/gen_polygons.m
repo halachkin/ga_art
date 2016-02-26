@@ -2,11 +2,11 @@ clear all; clc;
 
 tic
 
-MIN_VERTICES = 3;
-MAX_VERTICES = 5;
-N_POLYGONS = 50;
-OFFSET_MULT = 10;
-RASTER_SIZE = [600, 600];
+MIN_VERTICES = 2;
+MAX_VERTICES = 8;
+N_POLYGONS = 12;
+OFFSET_MULT = 3;
+RASTER_SIZE = [800, 800];
 
 
 polygons = struct('n_vertices', 0, 'x', [], 'y', [], ...
@@ -50,7 +50,9 @@ end
 
 
 %plot vector
-subplot(1,2,1); hold on;
+figure(1)
+% subplot(1,2,1);
+hold on;
 for i = 1:N_POLYGONS
     p = patch(polygons(i).x, polygons(i).y, polygons(i).color, 'FaceAlpha', ...
               polygons(i).alpha);
@@ -68,8 +70,8 @@ for i = 1:N_POLYGONS
     R(:,:, 3) = R(:,:, 3) + mask * polygons(i).color(3) * polygons(i).alpha;
    
 end
-
-subplot(1,2,2); hold on;
+figure(2)
+% subplot(1,2,2); hold on;
 imshow(R)    
 
 toc
