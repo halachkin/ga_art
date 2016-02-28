@@ -1,5 +1,7 @@
 clear all; clc;
 
+%dont look at this, cpp implementation differs
+
 tic
 
 MIN_VERTICES = 2;

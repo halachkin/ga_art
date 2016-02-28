@@ -9,7 +9,6 @@ using namespace constants;
 Polygon::Polygon(bool gen_in_polar)
 {
 	Random rand;
-
 	
 	_n_vertices = rand.gen_int(MIN_VERTICES, MAX_VERTICES);
 	_color[0] = rand.gen_double(0, 255);
