@@ -113,14 +113,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="draw_polygons.cpp" />
+    <ClCompile Include="fitness.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Polygon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constants.h" />
     <ClInclude Include="draw_polygons.h" />
+    <ClInclude Include="fitness.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="Polygon.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

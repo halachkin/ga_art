@@ -8,7 +8,7 @@
 
 #include "Polygon.h"
 
-cv::Mat draw_polygons(std::vector<Polygon> polygons, cv::Mat &img);
+cv::Mat draw_polygons(std::vector< std::shared_ptr<Polygon>> polygons, cv::Mat &img);
 
 #endif
 

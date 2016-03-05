@@ -1,12 +1,22 @@
 Download OpenCV 2.4.11
 https://sourceforge.net/projects/opencvlibrary/files/opencv-win/2.4.11/opencv-2.4.11.exe/download
 Extract files somewhere, for example C:\OpenCV
-Create env variable with opencv path
-setx -m OPENCV_DIR :\OpenCV\Build\x64\vc12     (suggested for Visual Studio 2010 - 64 bit Windows)
-Add to the WINDOWS PATH \bin folder (open path editor and add the following entry):
-%OPENCV_DIR%\bin
 
-Try the test opencv project \vs_proj\opencv_test - should display the image
++USING PREBUILDED BINARIES 
+    Create env variable with opencv path
+    setx -m OPENCV_DIR C:\OpenCV\Build\x64\vc12     (suggested for Visual Studio 2010 - 64 bit Windows)
+    Add to the WINDOWS PATH \bin folder (open path editor and add the following entry):
+    %OPENCV_DIR%\bin
+
+    Try the test opencv project \vs_proj\opencv_test - should display the image
+
++BUILD OPENCV
+    Install cmake http://www.cmake.org/cmake/resources/software.html
+    Create folder for the build, for example C:\OpenCV\mybuild
+    Generate Visual Studio solution using cmake
+    Open generated solution and build solution in debug and release mode
+    Build CMakeTargets INSTALL in debug and release mode
+    bin and lib folders went into C:\OpenCV\opencv\mybuild\install
 
 
 Sources:
