@@ -29,3 +29,6 @@ Sources:
 http://docs.opencv.org/2.4/doc/tutorials/introduction/windows_visual_studio_Opencv/windows_visual_studio_Opencv.html#windows-visual-studio-how-to
 http://docs.opencv.org/2.4/doc/tutorials/introduction/windows_install/windows_install.html#windowssetpathandenviromentvariable
 
+
+http://docs.opencv.org/2.4/doc/tutorials/introduction/windows_install/windows_install.html
+http://inside.mines.edu/~whoff/courses/EENG510/lectures/other/CompilingOpenCV.pdf
