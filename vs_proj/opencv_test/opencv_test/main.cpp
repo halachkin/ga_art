@@ -7,6 +7,15 @@ using namespace std;
 
 int main(int argc, char** argv)
 {
+	Mat r = Mat(10, 3, CV_8UC3);
+	randu(r, Scalar::all(0), Scalar::all(255));
+
+	cout << "r (default) = " << r << ";" << endl << endl;
+	cout << "r (python) = " << format(r, "python") << ";" << endl << endl;
+	cout << "r (numpy) = " << format(r, "numpy") << ";" << endl << endl;
+	cout << "r (csv) = " << format(r, "csv") << ";" << endl << endl;
+	cout << "r (c) = " << format(r, "C") << ";" << endl << endl;
+
 	if (argc != 2)
 	{
 		cout << " Usage: display_image ImageToLoadAndDisplay" << endl;
