@@ -3,7 +3,7 @@
 
 
 
-cv::Mat draw_polygons(std::vector< std::shared_ptr<Polygon>> polygons, cv::Mat &img)
+cv::Mat draw_polygons(const std::vector< std::shared_ptr<Polygon>>& polygons, cv::Mat &img)
 {
 	for (std::size_t i = 0; i < polygons.size(); i++)
 	{

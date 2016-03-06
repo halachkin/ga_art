@@ -10,6 +10,10 @@ class Random {
 private:
 	std::mt19937 gen{ std::random_device{}() };
 public:
+	std::mt19937 generator() const
+	{
+		return gen;
+	}
 
 	int gen_int(int min, int max)
 	{

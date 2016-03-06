@@ -112,20 +112,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DNA.cpp" />
     <ClCompile Include="draw_polygons.cpp" />
+    <ClCompile Include="Evolution.cpp" />
     <ClCompile Include="fitness.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Polygon.cpp" />
+    <ClCompile Include="Population.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constants.h" />
+    <ClInclude Include="DNA.h" />
     <ClInclude Include="draw_polygons.h" />
+    <ClInclude Include="Evolution.h" />
     <ClInclude Include="fitness.h" />
+    <ClInclude Include="Population.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="Polygon.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

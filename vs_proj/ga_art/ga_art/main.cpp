@@ -7,55 +7,46 @@
 #include "Polygon.h"
 #include "constants.h"
 #include "draw_polygons.h"
+#include "DNA.h"
+#include "Evolution.h"
+#include "Population.h"
 
 int main(void) 
 {
 
-	//DNA dna(constants::N_POLYGONS, 
-	//	    constants::N_VERTICES,
-	//	    constants::DNA_MODE);
+	DNA dna(constants::N_POLYGONS, 
+		    constants::N_VERTICES,
+		    constants::DNA_MODE);
 
-	//char window[] = "Polygons";
+	char window[] = "img";
 
-	///// Create black empty images
-	//cv::Mat img = cv::Mat::zeros(constants::IMG_H,
-	//						     constants::IMG_W, 
-	//);
+	/// Create black empty images
+	cv::Mat ref_img = cv::Mat::zeros(constants::IMG_H,
+							        constants::IMG_W, CV_8UC3);
 
-	//std::vector< std::shared_ptr<Polygon>> polygons = dna.polygons();
-	//draw_polygons(polygons, img);
-	//
-	//cv::imshow(window, img);
-	//cv::moveWindow(window, 10, 10);
-	//cv::waitKey(0);
+	draw_polygons(dna.polygons(), ref_img);
+	
+	cv::namedWindow(window);
+	cv::moveWindow(window, 10, 500);
+	Evolution evolution(constants::POPULATION_SIZE, ref_img);
+	for (std::size_t i = 0; i < 20; i++)
+	{
 
-	cv::Mat img1 = cv::Mat::zeros(1, 1, CV_8UC3);
-	cv::Mat img2 = cv::Mat::zeros(1, 1, CV_8UC3);
-	img1.at<cv::Vec3b>(0, 0)[0] = 1;
-	img1.at<cv::Vec3b>(0, 0)[1] = 2;
-	img1.at<cv::Vec3b>(0, 0)[2] = 3;
+		std::cout << "computing generation: " << i << std::endl;
+		std::cout << evolution.fitness() << "   ";
+		std::cout << evolution.population().size() << std::endl;
+		cv::Mat output;
+		cv::hconcat(ref_img, evolution.elite().raster(), output);
+		cv::imshow(window, output);
+		
+		cv::waitKey(25);
+		evolution.next_generation();
+		
+	}
 
-	img2.at<cv::Vec3b>(0, 0)[0] = 3;
-	img2.at<cv::Vec3b>(0, 0)[1] = 2;
-	img2.at<cv::Vec3b>(0, 0)[2] = 1;
+	std::cout << "finish" << std::endl;
 
-	cv::Mat diff;
-	cv::absdiff(img1, img2, diff);
-	std::cout << diff << std::endl;
-	diff = diff.mul(diff);
-	cv::Scalar bgr = cv::mean(diff);
-
-
-	std::cout << img1 << std::endl;
-	std::cout << img2 << std::endl;
-
-	std::cout << diff << std::endl;
-	std::cout << bgr << std::endl;
-
-
-
-	//std::cout << cv::getBuildInformation().c_str() << std::endl;
-	std::cin >> std::string();
+	
 	return(0);
 }
 
