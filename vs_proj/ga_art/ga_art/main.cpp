@@ -20,10 +20,10 @@ int main(void)
 
 	/// Create black empty images
 	cv::Mat img_cartesian = cv::Mat::zeros(constants::IMG_H,
-							     constants::IMG_W, CV_8UC3);
+							     constants::IMG_W, CV_8UC4);
 
 	cv::Mat img_polar = cv::Mat::zeros(constants::IMG_H,
-		constants::IMG_W, CV_8UC3);
+		constants::IMG_W, CV_8UC4);
 
 
 	draw_polygons(polygons, img_cartesian);
