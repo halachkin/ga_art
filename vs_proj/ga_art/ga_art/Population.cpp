@@ -75,6 +75,7 @@ const DNA & Population::elite() const
  const Population& Population::selection()
 {
 	//TODO
+	//There is just some naive version to make code work
 	std::sort(this->_chromosomes.begin(), this->_chromosomes.end(),
 		[](DNA& a, DNA& b) {return a.fitness() < b.fitness();});
 	std::vector<DNA> chromosomes(
@@ -88,6 +89,8 @@ const DNA & Population::elite() const
 
 const Population & Population::crossover()
 {
+	//TODO
+	//There is just some naive version to make code work
 	std::shuffle(_chromosomes.begin(), _chromosomes.end(),
 		         Random().generator());
 	std::size_t n = _chromosomes.size();
@@ -104,9 +107,11 @@ const Population & Population::crossover()
 
 const Population & Population::mutation()
 {
-	for (std::size_t i = 0; i < constants::POPULATION_SIZE/3; i++)
+	//TODO
+	//There is just some naive version to make code work
+	for (std::size_t i = 0; i < constants::POPULATION_SIZE/4; i++)
 	{
-		int idx = Random().gen_int(0, this->size() - 1);
+		int idx = Random().gen_int(0, static_cast<int>(this->size() - 1));
 		this->_chromosomes[idx].mutate();
 	}
 	this->_elite_found = false;

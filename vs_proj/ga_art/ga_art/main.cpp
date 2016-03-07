@@ -22,19 +22,19 @@ int main(void)
 	cv::Mat ref_img = cv::Mat::zeros(constants::IMG_H,
 							         constants::IMG_W, CV_8UC3);
 
-	ref_img = cv::Scalar( 255, 255, 255, 255 );
+	ref_img = cv::Scalar( 255, 255, 255 );
 	cv::rectangle(ref_img,
-			cv::Point(2 * constants::IMG_H / 8.0,
-				      6 * constants::IMG_H / 8.0),
-		cv::Point(6 * constants::IMG_H / 8.0,
-				  2 * constants::IMG_H / 8.0),
+			cv::Point(2 * constants::IMG_H / 8,
+				      6 * constants::IMG_H / 8),
+		cv::Point(6 * constants::IMG_H / 8,
+				  2 * constants::IMG_H / 8),
 			cv::Scalar(0, 255, 255),
 			-1,
 			8);
 	cv::namedWindow(window);
 	cv::moveWindow(window, 10, 500);
 	Evolution evolution(constants::POPULATION_SIZE, ref_img);
-	for (std::size_t i = 0; i < 10; i++)
+	for (std::size_t i = 0; i < 30; i++)
 	{
 		std::cout << "computing generation: " << i << "  ..." << std::endl;
 		std::cout << "fintess: " << evolution.fitness() << "   ";

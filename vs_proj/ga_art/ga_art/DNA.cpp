@@ -110,12 +110,6 @@ const double & DNA::fitness() const
 	return _fitness;
 }
 
-DNA & DNA::fitness(const double & fitness)
-{
-	_fitness = fitness;
-	_fitness_computed = true;
-	return *this;
-}
 
 double DNA::cmp_fitness(const cv::Mat & ref_img)
 {
@@ -144,6 +138,8 @@ const cv::Mat & DNA::raster() const
 
 DNA DNA::crossover(const DNA & parent1, const DNA & parent2)
 {
+	//TODO 
+	//There is just some naive version to make code work
 	std::vector< std::shared_ptr<Polygon>> polygons(
 		parent1.polygons().begin(),
 		parent1.polygons().begin() + parent1.n_polygons() / 2);
@@ -155,8 +151,10 @@ DNA DNA::crossover(const DNA & parent1, const DNA & parent2)
 
 DNA & DNA::mutate()
 {
-	int idx = Random().gen_int(0, _polygons.size() - 1);
+	//TODO
+	int idx = Random().gen_int(0, static_cast<int>(_polygons.size() - 1));
 	_polygons[idx]->mutate();
 	_fitness_computed = false;
+	_raster.release();
 	return *this;
 }

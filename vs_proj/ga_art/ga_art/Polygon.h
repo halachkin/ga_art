@@ -18,7 +18,7 @@ protected:
 	uint8_t _n_vertices;
 	//polygon color BGRA
 	cv::Scalar _color;
-	//polygon vertices Cartesian coordinates
+	//polygon vertices in Cartesian coordinates
 	std::vector<cv::Point> _xy;
 	
 public:
@@ -36,7 +36,7 @@ public:
 	virtual void mutate() = 0;
 };
 
-
+//Polygon with vertices in Cartesian coordinates
 class CartesianPolygon : public Polygon
 {
 public:
@@ -49,13 +49,14 @@ public:
 
 };
 
-
+//Polygon with vertices in Polar coordinates
 class PolarPolygon : public Polygon
 {
 private:
 	//polygon vertices in polar cords 
 	std::vector<double> _r;
 	std::vector<double> _angles;
+	//Polygon center is located at (_offset_x, _offset_y)
 	double _offset_x;
 	double _offset_y;
 

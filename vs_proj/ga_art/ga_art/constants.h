@@ -11,7 +11,7 @@ namespace constants
 	//general params
 	const std::size_t IMG_W = 400;
 	const std::size_t IMG_H = 400;
-	const std::size_t N_POLYGONS = 30;
+	const std::size_t N_POLYGONS = 20;
 	const uint8_t     N_VERTICES = 3;
 
 	//params for generating polygons in polar cords
@@ -21,7 +21,7 @@ namespace constants
 	const DnaMode DNA_MODE = DnaMode::Cartesian;
 
 	//Evolution params
-	const std::size_t POPULATION_SIZE = 100;
+	const std::size_t POPULATION_SIZE = 50;
 
 
 }
