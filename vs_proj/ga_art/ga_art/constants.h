@@ -4,20 +4,25 @@
 #include <cstdint>
 #include <algorithm>
 
-namespace constants 
+enum class DnaMode { Polar, Cartesian };
+
+namespace constants
 {
 	//general params
-	const std::size_t IMG_W = 500;
-	const std::size_t IMG_H = 500;
-	const std::size_t N_POLYGONS = 10000;
-	const uint8_t     MIN_VERTICES = 3;
-	const uint8_t     MAX_VERTICES = 3;
+	const std::size_t IMG_W = 400;
+	const std::size_t IMG_H = 400;
+	const std::size_t N_POLYGONS = 20;
+	const uint8_t     N_VERTICES = 3;
 
-	//params for the generating polygons in polar cords
-	const double      SCALE        = 0.05; // [0; 1.0]
-	const double OFFSET            = SCALE * 0.5 * std::min(IMG_H, IMG_W);
-	
+	//params for generating polygons in polar cords
+	const double SCALE = 0.9; // [0; 1.0]
+	const double OFFSET = SCALE * 0.5 * std::min(IMG_H, IMG_W);
+
+	const DnaMode DNA_MODE = DnaMode::Cartesian;
+
+	//Evolution params
+	const std::size_t POPULATION_SIZE = 50;
+
+
 }
-
-
 #endif

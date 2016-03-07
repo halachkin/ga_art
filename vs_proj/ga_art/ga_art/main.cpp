@@ -4,42 +4,54 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
-#include "Polygon.h"
 #include "constants.h"
-#include "draw_polygons.h"
+#include "DNA.h"
+#include "Evolution.h"
+
 
 int main(void) 
 {
 
-	std::vector<Polygon> polygons;
-	for (std::size_t i = 0; i < constants::N_POLYGONS; i++)
-		polygons.push_back(Polygon());
+	DNA dna(constants::N_POLYGONS, 
+		    constants::N_VERTICES,
+		    constants::DNA_MODE);
 
-	char window_cartesian[] = "Random Polygons in Cartesian";
-	char window_polar[] = "Random Polygons in Polar";
+	char window[] = "img";
 
 	/// Create black empty images
-	cv::Mat img_cartesian = cv::Mat::zeros(constants::IMG_H,
-							     constants::IMG_W, CV_8UC3);
+	cv::Mat ref_img = cv::Mat::zeros(constants::IMG_H,
+							         constants::IMG_W, CV_8UC3);
 
-	cv::Mat img_polar = cv::Mat::zeros(constants::IMG_H,
-		constants::IMG_W, CV_8UC3);
+	ref_img = cv::Scalar( 255, 255, 255 );
+	cv::rectangle(ref_img,
+			cv::Point(2 * constants::IMG_H / 8,
+				      6 * constants::IMG_H / 8),
+		cv::Point(6 * constants::IMG_H / 8,
+				  2 * constants::IMG_H / 8),
+			cv::Scalar(0, 255, 255),
+			-1,
+			8);
+	cv::namedWindow(window);
+	cv::moveWindow(window, 10, 500);
+	Evolution evolution(constants::POPULATION_SIZE, ref_img);
+	for (std::size_t i = 0; i < 30; i++)
+	{
+		std::cout << "computing generation: " << i << "  ..." << std::endl;
+		std::cout << "fintess: " << evolution.fitness() << "   ";
+		std::cout << "mean fitness: " << evolution.mean_fitness() << "  ";
+		std::cout << "population size: " << evolution.population().size();
+		std::cout << std::endl;
+		cv::Mat output;
+		cv::hconcat(ref_img, evolution.elite().raster(), output);
+		cv::imshow(window, output);
+		
+		cv::waitKey(25);
+		evolution.next_generation();
+		
+	}
 
-
-	draw_polygons(polygons, img_cartesian);
-
-	polygons.clear();
-	for (std::size_t i = 0; i < constants::N_POLYGONS; i++)
-		polygons.push_back(Polygon(true));
-	
-	draw_polygons(polygons, img_polar);
-
-	cv::imshow(window_cartesian, img_cartesian);
-	cv::imshow(window_polar, img_polar);
-	cv::moveWindow(window_polar, 10, 10);
-	cv::moveWindow(window_polar, 500, 10);
-	cv::waitKey(0);
-
+	std::cout << "finish" << std::endl;
+	std::cin >> std::string();
 	
 	return(0);
 }

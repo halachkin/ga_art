@@ -2,48 +2,84 @@
 #define POLYGON_H
 
 #include <cstdint>
+#include <iostream>
 #include <vector>
+
+
 #include <opencv2/core/core.hpp>
 
+#include "constants.h"
 
+//Abstract Polygon class
 class Polygon
 {
-
-private:
+protected:
+	//number of vertices
 	uint8_t _n_vertices;
-	//cartesian polygon cords
-	std::vector<cv::Point> _xy;
-	//polar polygon cords
-	std::vector<double> _r;
-	std::vector<double> _angles;
-	double _offset_r;
-	double _offset_angle;
-
 	//polygon color BGRA
 	cv::Scalar _color;
+	//polygon vertices in Cartesian coordinates
+	std::vector<cv::Point> _xy;
+	
+public:
+	//ctor
+	Polygon(uint8_t n_vertices, cv::Scalar& color);
+
+	//getters
+	const uint8_t& n_vertices() const;
+	const cv::Scalar& color() const;
+	const std::vector<cv::Point>& xy() const;
+	const cv::Point* get_raw_points() const;
+
+	//will crossover this with parent and save child into this	
+	virtual Polygon& crossover(Polygon& parent2) = 0;
+	virtual void mutate() = 0;
+};
+
+//Polygon with vertices in Cartesian coordinates
+class CartesianPolygon : public Polygon
+{
+public:
+	CartesianPolygon(uint8_t n_vertices,
+					 cv::Scalar& color,
+					 std::vector<cv::Point>& xy);
+
+	Polygon& crossover(Polygon& parent2);
+	void mutate();
+
+};
+
+//Polygon with vertices in Polar coordinates
+class PolarPolygon : public Polygon
+{
+private:
+	//polygon vertices in polar cords 
+	std::vector<double> _r;
+	std::vector<double> _angles;
+	//Polygon center is located at (_offset_x, _offset_y)
+	double _offset_x;
+	double _offset_y;
 
 public:
 
+	//ctor
+	PolarPolygon(   uint8_t n_vertices,
+					cv::Scalar& color,
+					std::vector<double>& r,
+					std::vector<double>& angles,
+					double offset_x,
+					double offset_y);
+
 	//getters
-	const uint8_t& n_vertices() const { return _n_vertices; }
-	const std::vector<cv::Point>& xy() const { return _xy; }
-	const std::vector<double>& r() const { return _r; }
-	const std::vector<double>& angles() const { return _angles; }
-	const cv::Scalar& color() const { return _color; }
-	const double& offset_r() const { return _offset_r; }
-	const double& offset_angle() const { return _offset_angle; }
+	const std::vector<double>& r() const;
+	const std::vector<double>& angles() const;
+	const double& offset_x() const;
+	const double& offset_y() const;
 
-
-	const cv::Point* get_raw_points() { return &_xy[0]; }
-	const double alpha() { return _color[3]; }
-	Polygon(bool gen_in_polar = false);
+	Polygon& crossover(Polygon& parent2);
+	void mutate();
 
 };
 
-class DNAPolygon : public Polygon
-{
-private:
-	std::vector<int> _dna;
-};
 
 #endif
