@@ -17,9 +17,18 @@ Extract files somewhere, for example C:\OpenCV
     Open generated solution and build solution in debug and release mode
     Build CMakeTargets INSTALL in debug and release mode
     bin and lib folders went into C:\OpenCV\opencv\mybuild\install
+    set env variable with opencv path:
+    setx -m OPENCV_DIR C:\OpenCV\opencv\mybuild\install
+    Add to the WINDOWS PATH \bin folder (open path editor and add the following entry):
+    %OPENCV_DIR%\bin
 
+    Try the test opencv project \vs_proj\opencv_test - should display the image and
+    display matrix
 
 Sources:
 http://docs.opencv.org/2.4/doc/tutorials/introduction/windows_visual_studio_Opencv/windows_visual_studio_Opencv.html#windows-visual-studio-how-to
 http://docs.opencv.org/2.4/doc/tutorials/introduction/windows_install/windows_install.html#windowssetpathandenviromentvariable
 
+
+http://docs.opencv.org/2.4/doc/tutorials/introduction/windows_install/windows_install.html
+http://inside.mines.edu/~whoff/courses/EENG510/lectures/other/CompilingOpenCV.pdf
