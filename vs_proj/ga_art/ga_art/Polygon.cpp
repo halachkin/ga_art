@@ -49,10 +49,15 @@ Polygon & CartesianPolygon::crossover(Polygon & parent2)
 
 void CartesianPolygon::mutate()
 {
+	//TODO
 	Random rand;
 	std::size_t point_idx = rand.gen_int(0, this->n_vertices() - 1);
 	this->_xy[point_idx].x = rand.gen_int(0, IMG_W);
 	this->_xy[point_idx].y = rand.gen_int(0, IMG_H);
+	this->_color[0] = rand.gen_int(0, 255);
+	this->_color[1] = rand.gen_int(0, 255);
+	this->_color[2] = rand.gen_int(0, 255);
+	this->_color[3] = rand.gen_int(0, 255);
 }
 
 //PolarPoygon 
@@ -97,12 +102,18 @@ const double& PolarPolygon::offset_y() const
 
 Polygon & PolarPolygon::crossover(Polygon & parent2)
 {
+	//TODO
 	return *this;
 }
 
 void PolarPolygon::mutate()
 {
 	//TODO
+	Random rand;
+	this->_color[0] = rand.gen_int(0, 255);
+	this->_color[1] = rand.gen_int(0, 255);
+	this->_color[2] = rand.gen_int(0, 255);
+	this->_color[3] = rand.gen_int(0, 255);
 }
 
 

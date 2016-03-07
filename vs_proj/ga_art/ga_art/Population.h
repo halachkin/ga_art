@@ -27,6 +27,9 @@ public:
 	//fitness of the best DNA
 	double fitness(const cv::Mat& ref_img);
 
+	//mean fitness of all chromosomes
+	double mean_fitness();
+
 	const DNA & elite() const;
 	const Population& selection();
 	const Population& crossover();

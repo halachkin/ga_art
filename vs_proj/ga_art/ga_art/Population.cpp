@@ -47,10 +47,25 @@ double Population::fitness(const cv::Mat& ref_img)
 			}
 		}
 		_elite_idx = elite_idx;
+		_elite_found = true;
 	}
 	return _chromosomes[_elite_idx].fitness();
 }
 
+
+double Population::mean_fitness()
+{
+	if(_elite_found)
+	{
+		double mean = 0.0;
+		for (std::size_t i = 0; i < _chromosomes.size(); i++)
+			mean += _chromosomes[i].fitness();
+		return mean / _chromosomes.size();
+	}
+	else
+		std::exception("COMPUTE FITNESS FIRST!");
+	return -1.0;
+}
 
 const DNA & Population::elite() const
 {
@@ -60,10 +75,13 @@ const DNA & Population::elite() const
  const Population& Population::selection()
 {
 	//TODO
+	std::sort(this->_chromosomes.begin(), this->_chromosomes.end(),
+		[](DNA& a, DNA& b) {return a.fitness() < b.fitness();});
 	std::vector<DNA> chromosomes(
 		            this->_chromosomes.begin(),
 					this->_chromosomes.begin() + this->size() / 2);
-	_elite_found = false;
+	_elite_found = true;
+	_elite_idx = 0;
 	this->_chromosomes = chromosomes;
 	return *this;
 }
@@ -73,22 +91,24 @@ const Population & Population::crossover()
 	std::shuffle(_chromosomes.begin(), _chromosomes.end(),
 		         Random().generator());
 	std::size_t n = _chromosomes.size();
-	for (std::size_t i = 1; i < n /2 + 1 ; i++)
+	for (std::size_t i = 1; i < (n + 3) / 2 ; i++)
 	{
 		DNA child1 = DNA::crossover(_chromosomes[i], _chromosomes[i - 1]);
 		DNA child2 = DNA::crossover(_chromosomes[i - 1], _chromosomes[i]);
 		_chromosomes.push_back(child1);
 		_chromosomes.push_back(child2);
 	}
+	this->_elite_found = false;
 	return *this;
 }
 
 const Population & Population::mutation()
 {
-	for (std::size_t i = 0; i < constants::POPULATION_SIZE/2; i++)
+	for (std::size_t i = 0; i < constants::POPULATION_SIZE/3; i++)
 	{
 		int idx = Random().gen_int(0, this->size() - 1);
 		this->_chromosomes[idx].mutate();
 	}
+	this->_elite_found = false;
 	return *this;
 }

@@ -144,13 +144,19 @@ const cv::Mat & DNA::raster() const
 
 DNA DNA::crossover(const DNA & parent1, const DNA & parent2)
 {
-	//TODO
-	return DNA(parent1.polygons()) ;
+	std::vector< std::shared_ptr<Polygon>> polygons(
+		parent1.polygons().begin(),
+		parent1.polygons().begin() + parent1.n_polygons() / 2);
+	polygons.insert(polygons.end(), parent2.polygons().begin(),
+		parent2.polygons().begin() + parent2.n_polygons() / 2);
+	std::shuffle(polygons.begin(), polygons.end(), Random().generator());
+	return DNA(polygons);
 }
 
 DNA & DNA::mutate()
 {
 	int idx = Random().gen_int(0, _polygons.size() - 1);
 	_polygons[idx]->mutate();
+	_fitness_computed = false;
 	return *this;
 }

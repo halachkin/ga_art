@@ -17,6 +17,7 @@ public:
 
 	const Population& population() const;
 	double fitness();
+	double mean_fitness();
 	const DNA& elite() const;
 
 	const Population& next_generation();

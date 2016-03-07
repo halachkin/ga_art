@@ -31,7 +31,7 @@ public:
 	const std::vector<cv::Point>& xy() const;
 	const cv::Point* get_raw_points() const;
 
-
+	//will crossover this with parent and save child into this	
 	virtual Polygon& crossover(Polygon& parent2) = 0;
 	virtual void mutate() = 0;
 };

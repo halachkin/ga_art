@@ -4,12 +4,10 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
-#include "Polygon.h"
 #include "constants.h"
-#include "draw_polygons.h"
 #include "DNA.h"
 #include "Evolution.h"
-#include "Population.h"
+
 
 int main(void) 
 {
@@ -22,19 +20,27 @@ int main(void)
 
 	/// Create black empty images
 	cv::Mat ref_img = cv::Mat::zeros(constants::IMG_H,
-							        constants::IMG_W, CV_8UC3);
+							         constants::IMG_W, CV_8UC3);
 
-	draw_polygons(dna.polygons(), ref_img);
-	
+	ref_img = cv::Scalar( 255, 255, 255, 255 );
+	cv::rectangle(ref_img,
+			cv::Point(2 * constants::IMG_H / 8.0,
+				      6 * constants::IMG_H / 8.0),
+		cv::Point(6 * constants::IMG_H / 8.0,
+				  2 * constants::IMG_H / 8.0),
+			cv::Scalar(0, 255, 255),
+			-1,
+			8);
 	cv::namedWindow(window);
 	cv::moveWindow(window, 10, 500);
 	Evolution evolution(constants::POPULATION_SIZE, ref_img);
-	for (std::size_t i = 0; i < 20; i++)
+	for (std::size_t i = 0; i < 10; i++)
 	{
-
-		std::cout << "computing generation: " << i << std::endl;
-		std::cout << evolution.fitness() << "   ";
-		std::cout << evolution.population().size() << std::endl;
+		std::cout << "computing generation: " << i << "  ..." << std::endl;
+		std::cout << "fintess: " << evolution.fitness() << "   ";
+		std::cout << "mean fitness: " << evolution.mean_fitness() << "  ";
+		std::cout << "population size: " << evolution.population().size();
+		std::cout << std::endl;
 		cv::Mat output;
 		cv::hconcat(ref_img, evolution.elite().raster(), output);
 		cv::imshow(window, output);
@@ -45,7 +51,7 @@ int main(void)
 	}
 
 	std::cout << "finish" << std::endl;
-
+	std::cin >> std::string();
 	
 	return(0);
 }

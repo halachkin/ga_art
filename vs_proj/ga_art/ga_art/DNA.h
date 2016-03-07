@@ -52,7 +52,7 @@ public:
 
 	//TODO
 	static DNA crossover(const DNA& parent1, const DNA& parent2);
-
+	//TODO
 	DNA& mutate();
 
 };

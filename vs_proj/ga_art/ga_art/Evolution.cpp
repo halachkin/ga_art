@@ -19,6 +19,11 @@ double Evolution::fitness()
 	return _population.fitness(_reference_img);
 }
 
+double Evolution::mean_fitness()
+{
+	return _population.mean_fitness();
+}
+
 const DNA & Evolution::elite() const
 {
 	return _population.elite();
