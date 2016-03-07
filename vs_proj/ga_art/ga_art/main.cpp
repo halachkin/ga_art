@@ -20,9 +20,9 @@ int main(void)
 
 	/// Create black empty images
 	cv::Mat ref_img = cv::Mat::zeros(constants::IMG_H,
-							         constants::IMG_W, CV_8UC3);
+							         constants::IMG_W, CV_8UC4);
 
-	ref_img = cv::Scalar( 255, 255, 255 );
+	ref_img = cv::Scalar( 255, 255, 255);
 	cv::rectangle(ref_img,
 			cv::Point(2 * constants::IMG_H / 8,
 				      6 * constants::IMG_H / 8),
