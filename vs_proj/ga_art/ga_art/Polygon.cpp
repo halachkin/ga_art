@@ -57,7 +57,7 @@ void CartesianPolygon::mutate()
 	this->_color[0] = rand.gen_int(0, 255);
 	this->_color[1] = rand.gen_int(0, 255);
 	this->_color[2] = rand.gen_int(0, 255);
-	this->_color[3] = rand.gen_int(0, 255);
+	this->_color[3] = rand.gen_double(0.1, 1.0);
 }
 
 //PolarPoygon 
@@ -113,7 +113,7 @@ void PolarPolygon::mutate()
 	this->_color[0] = rand.gen_int(0, 255);
 	this->_color[1] = rand.gen_int(0, 255);
 	this->_color[2] = rand.gen_int(0, 255);
-	this->_color[3] = rand.gen_int(0, 255);
+	this->_color[3] = rand.gen_double(0.1, 1.0);
 }
 
 

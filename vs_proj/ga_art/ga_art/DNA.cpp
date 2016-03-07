@@ -119,7 +119,7 @@ double DNA::cmp_fitness(const cv::Mat & ref_img)
 		if (_raster.empty())
 		{
 			_raster = cv::Mat::zeros(constants::IMG_H,
-				                     constants::IMG_W, CV_8UC3);
+				                     constants::IMG_W, CV_8UC4);
 			draw_polygons(this->_polygons, this->_raster);
 		}
 		_fitness = fitness::mean_square_err(ref_img, _raster);
