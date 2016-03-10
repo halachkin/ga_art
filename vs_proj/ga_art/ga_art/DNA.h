@@ -52,7 +52,7 @@ public:
 	//return fitness (should computed first!!!) 
 	//TODO:
 	//redundant?
-	const double& fitness() const;
+	double fitness() const;
 
 	//will compute fitness and return it
 	//computing fitness only first time! 

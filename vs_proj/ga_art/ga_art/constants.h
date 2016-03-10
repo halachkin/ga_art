@@ -5,13 +5,15 @@
 #include <algorithm>
 
 enum class DnaMode { Polar, Cartesian };
+enum class SelectionMode { RouletteWheel };
+
 
 namespace constants
 {
 	//general params
-	const std::size_t IMG_W = 400;
-	const std::size_t IMG_H = 400;
-	const std::size_t N_POLYGONS = 20;
+	const std::size_t IMG_W = 200;
+	const std::size_t IMG_H = 200;
+	const std::size_t N_POLYGONS = 30;
 	const uint8_t     N_VERTICES = 3;
 
 	//params for generating polygons in polar cords
@@ -22,6 +24,7 @@ namespace constants
 
 	//Evolution params
 	const std::size_t POPULATION_SIZE = 50;
+	const SelectionMode SELECTION_MODE = SelectionMode::RouletteWheel;
 
 
 }

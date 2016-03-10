@@ -34,7 +34,7 @@ int main(void)
 	cv::namedWindow(window);
 	cv::moveWindow(window, 10, 500);
 	Evolution evolution(constants::POPULATION_SIZE, ref_img);
-	for (std::size_t i = 0; i < 30; i++)
+	for (std::size_t i = 0; i < 100; i++)
 	{
 		std::cout << "computing generation: " << i << "  ..." << std::endl;
 		std::cout << "fintess: " << evolution.fitness() << "   ";
