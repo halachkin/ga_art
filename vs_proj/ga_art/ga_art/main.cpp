@@ -42,7 +42,9 @@ int main(void)
 		std::cout << "population size: " << evolution.population().size();
 		std::cout << std::endl;
 		cv::Mat output;
-		cv::hconcat(ref_img, evolution.elite().raster(), output);
+		cv::hconcat(ref_img, 
+			        evolution.elite()[evolution.elite().size() - 1].raster(),
+			        output);
 		cv::imshow(window, output);
 		
 		cv::waitKey(25);

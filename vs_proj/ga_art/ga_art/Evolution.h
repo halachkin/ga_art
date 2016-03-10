@@ -13,12 +13,12 @@ private:
 	Population _population;
 
 public:
-	Evolution(std::size_t population_size, cv::Mat& ref_img);
+	Evolution(std::size_t population_size, const cv::Mat& ref_img);
 
 	const Population& population() const;
 	double fitness();
 	double mean_fitness();
-	const DNA& elite() const;
+	const std::vector<DNA>& elite() const;
 
 	const Population& next_generation();
 

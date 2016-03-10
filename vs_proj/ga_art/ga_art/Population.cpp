@@ -9,21 +9,46 @@
 
 using namespace constants;
 
-Population::Population(std::size_t n_chromosomes)
+
+void Population::_find_elite()
 {
+	_chromosomes.insert(_chromosomes.begin(), _elite.begin(), _elite.end());
+	_elite.clear();
+	for (std::size_t i = 0; i < this->_n_elite; i++)
+	{
+		std::size_t cur_idx = 0;
+		double temp_min = std::numeric_limits<double>::max();
+		for (std::size_t j = 0; j < _chromosomes.size(); j++)
+		{
+			if (temp_min > _chromosomes[j].fitness(_ref_img))
+			{
+				temp_min = _chromosomes[j].fitness(_ref_img);
+				cur_idx = j;
+			}
+		}
+		_elite.push_back(_chromosomes[cur_idx]);
+		_chromosomes.erase(_chromosomes.begin() + cur_idx);
+	}
+}
+
+Population::Population(std::size_t n_chromosomes, const cv::Mat & ref_img):
+_ref_img(ref_img)
+{
+	_n_elite = ELITE_SIZE;
 	for (std::size_t i = 0; i < n_chromosomes; i++)
 		_chromosomes.push_back(DNA(N_POLYGONS, N_VERTICES, DNA_MODE));
 }
 
-Population::Population(std::vector<DNA>& chromosomes):
-   _chromosomes(chromosomes)
+Population::Population(std::vector<DNA>& chromosomes, const cv::Mat & ref_img):
+   _chromosomes(chromosomes),
+   _ref_img(ref_img)
 {
-
+	_n_elite = ELITE_SIZE;
 }
 
 const std::size_t Population::size() const
 {
-	return  _chromosomes.size();
+	return  _chromosomes.size() + _elite.size();
 }
 
 const std::vector<DNA>& Population::chromosomes() const
@@ -31,56 +56,38 @@ const std::vector<DNA>& Population::chromosomes() const
 	return _chromosomes;
 }
 
-double Population::fitness(const cv::Mat& ref_img) 
+double Population::fitness() 
 {
-	if (!_elite_found)
-	{
-		double best_fitness = std::numeric_limits<double>::max();
-		std::size_t elite_idx = 0;
-		for (std::size_t i = 0; i < _chromosomes.size(); i++)
-		{
-			double cur_fitness = _chromosomes[i].cmp_fitness(ref_img);
-			if (cur_fitness < best_fitness)
-			{
-				elite_idx = i;
-				best_fitness = cur_fitness;
-			}
-		}
-		_elite_idx = elite_idx;
-		_elite_found = true;
-	}
-	return _chromosomes[_elite_idx].fitness();
+	if (this->_elite.size() == 0)
+		this->_find_elite();
+	return this->_elite[this->_elite.size() - 1].fitness(_ref_img);
 }
 
 
 double Population::mean_fitness()
 {
-	if(_elite_found)
-	{
-		double mean = 0.0;
-		for (std::size_t i = 0; i < _chromosomes.size(); i++)
-			mean += _chromosomes[i].fitness();
-		return mean / _chromosomes.size();
-	}
-	else
-		throw std::exception("COMPUTE FITNESS FIRST!");
-	return -1.0;
+	double mean = 0.0;
+
+	for (std::size_t i = 0; i < _chromosomes.size(); i++)
+		mean += _chromosomes[i].fitness(_ref_img);
+	for (std::size_t i = 0; i < _elite.size(); i++)
+		mean += _elite[i].fitness(_ref_img);
+
+	return mean / this->size();
+
 }
 
-const DNA & Population::elite() const
+const std::vector<DNA>  & Population::elite() const
 {
-	if (_elite_found)
-		return _chromosomes[_elite_idx];
-	else
+	if (_elite.size() == 0)
 		throw std::exception("Elite not found yet!");
-	return _chromosomes[0];
+	return this->_elite;
 }
 
  const Population& Population::selection(SelectionMode selection_mode)
 {
 	if (selection_mode == SelectionMode::RouletteWheel)
 		this->roulette_wheel();
-
 	return *this;
 }
 
@@ -105,17 +112,14 @@ const DNA & Population::elite() const
  {
 	 //TODL: Need to rewrite this! 
 
-	 DNA elite = this->_chromosomes[this->_elite_idx];
-	 this->_chromosomes.erase(this->_chromosomes.begin() + this->_elite_idx);
 	 //init fitness array
-	 std::vector<double> fitness_arr(this->size());
-	 for (std::size_t i = 0; i < this->size(); i++)
-		 fitness_arr[i] = _chromosomes[i].fitness();
+	 std::vector<double> fitness_arr(this->_chromosomes.size());
+	 for (std::size_t i = 0; i < this->_chromosomes.size(); i++)
+		 fitness_arr[i] = _chromosomes[i].fitness(this->_ref_img);
 
 	 //select chromosomes
 	 std::vector<std::size_t> alived;
-
-	 for (std::size_t i = 0; i < this->size() / 2; i++)
+	 for (std::size_t i = 0; i < this->_chromosomes.size() / 2; i++)
 	 {
 		 std::size_t lucker = Population::roulette_wheel_select(fitness_arr);
 		 alived.push_back(lucker);
@@ -127,13 +131,8 @@ const DNA & Population::elite() const
 	for (std::size_t i = 0; i < alived.size(); i++)
 		t_chromosomes.push_back(this->_chromosomes[i]);
 
-
-	t_chromosomes.push_back(elite);
-	_elite_idx = t_chromosomes.size() - 1;
-	_elite_found = true;
-
 	this->_chromosomes = t_chromosomes;
- }
+}
 
 const Population & Population::crossover()
 {
@@ -149,7 +148,6 @@ const Population & Population::crossover()
 		_chromosomes.push_back(child1);
 		_chromosomes.push_back(child2);
 	}
-	this->_elite_found = false;
 	return *this;
 }
 
@@ -158,16 +156,13 @@ const Population & Population::mutation()
 	//TODO 
 	//There is just some naive version to make code work
 
-	DNA elite = this->_chromosomes[this->_elite_idx];
-	this->_chromosomes.erase(this->_chromosomes.begin() + this->_elite_idx);
-	for (std::size_t i = 0; i < constants::POPULATION_SIZE/10; i++)
+	for (std::size_t i = 0; i < constants::POPULATION_SIZE/3; i++)
 	{
-		int idx = Random().gen_int(0, static_cast<int>(this->size() - 1));
-		if (idx == this->_elite_idx)
-			continue;
+		int idx = Random().gen_int(0, static_cast<int>(this->_chromosomes.size() - 1));
 		this->_chromosomes[idx].mutate();
 	}
-	this->_chromosomes.push_back(elite);
-	this->_elite_found = false;
+
+	_chromosomes.insert(_chromosomes.begin(), _elite.begin(), _elite.end());
+	_elite.clear();
 	return *this;
 }

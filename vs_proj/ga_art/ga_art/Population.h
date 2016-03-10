@@ -12,17 +12,18 @@ class Population
 {
 private:
 	std::vector<DNA> _chromosomes;
-	//Best Chromosome (DNA with the lowest fitness) index
-	//TODO:
-	//change to vector
-	std::size_t _elite_idx;
-	bool _elite_found;
+	//Best Chromosomes (DNAs with the lowest fitness)
+	std::size_t _n_elite;
+	std::vector<DNA> _elite;
+	const cv::Mat & _ref_img;
+
+	void  _find_elite();
 
 public:
 	//Init the population with random chromosomes
-	Population(std::size_t n_chromosomes);
+	Population(std::size_t n_chromosomes, const cv::Mat & ref_img);
 	//Create the population from chromosomes
-	Population(std::vector<DNA>& chromosomes);
+	Population(std::vector<DNA>& chromosomes, const cv::Mat & ref_img);
 
 	//getters
 	const std::size_t size() const;
@@ -31,13 +32,13 @@ public:
 	
 	//fitness of the best DNA
 	//If DNAs do not have fitness will compute it
-	double fitness(const cv::Mat& ref_img);
+	double fitness();
 
 	//mean fitness of all chromosomes
 	double mean_fitness();
 
 	//elite getter
-	const DNA & elite() const;
+	const std::vector<DNA>  & elite() const;
 
 	//TODO
 	//Genetic operators

@@ -101,17 +101,7 @@ const std::vector< std::shared_ptr<Polygon>>& DNA::polygons() const
 	return _polygons;
 }
 
-double DNA::fitness() const
-{
-	if (_fitness_computed)
-		return _fitness;
-	else
-		throw std::exception("SHOULD COMPUTE FITNESS FIRST");
-	return -1.0;
-}
-
-
-double DNA::cmp_fitness(const cv::Mat & ref_img)
+double DNA::fitness(const cv::Mat & ref_img)
 {
 	if (!_fitness_computed)
 	{
