@@ -76,12 +76,12 @@ DNA::DNA(std::size_t n_polygons,
 DNA::DNA(const std::vector< std::shared_ptr<Polygon>>& polygons) :
 _polygons(polygons)
 {
-	if (typeid(polygons[0]) == typeid(CartesianPolygon))
+	if (typeid(*polygons[0].get()) == typeid(CartesianPolygon))
 		_dna_mode = DnaMode::Cartesian;
-	else if (typeid(polygons[0]) == typeid(PolarPolygon))
+	else if (typeid(*polygons[0].get()) == typeid(PolarPolygon))
 		_dna_mode = DnaMode::Polar;
 	else
-		std::exception("Unknown polygon DNA");
+		throw std::exception("Unknown polygon DNA");
 	_fitness_computed = false;
 
 }
@@ -101,17 +101,7 @@ const std::vector< std::shared_ptr<Polygon>>& DNA::polygons() const
 	return _polygons;
 }
 
-const double & DNA::fitness() const
-{
-	if (_fitness_computed)
-		return _fitness;
-	else
-		std::exception("SHOULD COMPUTE FITNESS FIRST");
-	return _fitness;
-}
-
-
-double DNA::cmp_fitness(const cv::Mat & ref_img)
+double DNA::fitness(const cv::Mat & ref_img)
 {
 	if (!_fitness_computed)
 	{
@@ -132,7 +122,7 @@ const cv::Mat & DNA::raster() const
 	if (!_raster.empty())
 		return _raster;
 	else
-		std::exception("EMPTY RASTER");
+		throw std::exception("EMPTY RASTER");
 	return _raster;
 }
 
@@ -145,7 +135,8 @@ DNA DNA::crossover(const DNA & parent1, const DNA & parent2)
 		parent1.polygons().begin() + parent1.n_polygons() / 2);
 	polygons.insert(polygons.end(), parent2.polygons().begin(),
 		parent2.polygons().begin() + parent2.n_polygons() / 2);
-	std::shuffle(polygons.begin(), polygons.end(), Random().generator());
+	//std::shuffle(polygons.begin(), polygons.end(), Random().generator());
+
 	return DNA(polygons);
 }
 

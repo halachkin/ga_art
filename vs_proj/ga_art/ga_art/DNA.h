@@ -49,16 +49,13 @@ public:
 	std::size_t n_polygons() const;
 	const DnaMode& dna_mode() const;
 	const std::vector< std::shared_ptr<Polygon>>& polygons() const;
-	//return fitness (should computed first!!!) 
-	//TODO:
-	//redundant?
-	const double& fitness() const;
+
 
 	//will compute fitness and return it
 	//computing fitness only first time! 
 	//TODO:
 	//add some check for different input images?
-	double cmp_fitness(const cv::Mat & ref_img);
+	double fitness(const cv::Mat & ref_img);
 	//Will generate raster image
 	const cv::Mat & raster() const;
 

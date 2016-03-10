@@ -3,10 +3,9 @@
 
 
 
-Evolution::Evolution(std::size_t population_size, cv::Mat& ref_img):
-	_reference_img(ref_img), _population(population_size)
+Evolution::Evolution(std::size_t population_size, const cv::Mat& ref_img):
+	_reference_img(ref_img), _population(population_size, ref_img)
 {
-	_population.fitness(ref_img);
 }
 
 const Population & Evolution::population() const
@@ -16,7 +15,7 @@ const Population & Evolution::population() const
 
 double Evolution::fitness()
 {
-	return _population.fitness(_reference_img);
+	return _population.fitness();
 }
 
 double Evolution::mean_fitness()
@@ -24,7 +23,7 @@ double Evolution::mean_fitness()
 	return _population.mean_fitness();
 }
 
-const DNA & Evolution::elite() const
+const std::vector<DNA> & Evolution::elite() const
 {
 	return _population.elite();
 }

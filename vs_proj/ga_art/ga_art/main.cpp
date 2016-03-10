@@ -34,7 +34,7 @@ int main(void)
 	cv::namedWindow(window);
 	cv::moveWindow(window, 10, 500);
 	Evolution evolution(constants::POPULATION_SIZE, ref_img);
-	for (std::size_t i = 0; i < 30; i++)
+	for (std::size_t i = 0; i < 100; i++)
 	{
 		std::cout << "computing generation: " << i << "  ..." << std::endl;
 		std::cout << "fintess: " << evolution.fitness() << "   ";
@@ -42,7 +42,9 @@ int main(void)
 		std::cout << "population size: " << evolution.population().size();
 		std::cout << std::endl;
 		cv::Mat output;
-		cv::hconcat(ref_img, evolution.elite().raster(), output);
+		cv::hconcat(ref_img, 
+			        evolution.elite()[evolution.elite().size() - 1].raster(),
+			        output);
 		cv::imshow(window, output);
 		
 		cv::waitKey(25);
