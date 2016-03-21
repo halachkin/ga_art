@@ -142,12 +142,11 @@ DNA DNA::crossover(const DNA & parent1, const DNA & parent2)
 	return DNA(polygons);
 }
 
-DNA & DNA::mutate()
+int DNA::mutate()
 {
 	//TODO
 	int idx = Random().gen_int(0, static_cast<int>(_polygons.size() - 1));
-	_polygons[idx]->mutate();
 	_fitness_computed = false;
 	_raster.release();
-	return *this;
+	return _polygons[idx]->mutate();
 }

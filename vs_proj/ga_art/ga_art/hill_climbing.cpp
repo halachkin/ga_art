@@ -17,13 +17,14 @@ void HillClimbing::next_generation()
 {
 	this->n_generation++;
 	DNA next_dna(this->_current_dna);
-	next_dna.mutate();
+	int mutation = next_dna.mutate();
 	double f1 = next_dna.fitness(_ref_img);
 	double f2 = this->_current_dna.fitness(_ref_img);
-	if (f1 < f2)
+	if (f1 < f2 || Random().gen_double(0.0, 1.0) < 0.001 /this->n_selected)
 	{
 		this->_current_dna = next_dna;
 		this->n_selected++;
+		this->mutation_selected[mutation]++;
 	}
 
 }

@@ -17,8 +17,12 @@ void run_hill_climb(const cv::Mat & ref_img)
 
 		if (i % 100 == 0)
 		{
-			std::cout << "fitness: " << hill_climbing.fitness() << "  i:";
-			std::cout << i << "  selected: " << hill_climbing.n_selected << std::endl;
+			std::cout << "fitness: " << hill_climbing.fitness() << " i:  ";
+			std::cout << i << "   selected:  " << hill_climbing.n_selected;
+			std::cout << "  mutation: " << hill_climbing.mutation_selected[0];
+			std::cout << ", "<< hill_climbing.mutation_selected[1];
+			std::cout << ", " << hill_climbing.mutation_selected[2];
+			std::cout << ", " << hill_climbing.mutation_selected[3] << std::endl;
 		}
 		i++;
 		if (i % 100 == 0)

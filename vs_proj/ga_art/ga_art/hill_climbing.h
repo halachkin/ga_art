@@ -16,6 +16,7 @@ private:
 public:
 	unsigned int n_generation;
 	unsigned int n_selected;
+	unsigned int mutation_selected[3] = { 0 };
 
 	HillClimbing(const cv::Mat & ref_img);
 

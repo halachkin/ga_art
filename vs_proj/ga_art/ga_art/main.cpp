@@ -18,7 +18,7 @@ int main(void)
 	char window[] = "img";
 
 	/// Create black empty images
-	cv::Mat image = cv::imread("test_samples\\example3.png", CV_LOAD_IMAGE_UNCHANGED);
+	cv::Mat image = cv::imread("test_samples\\example1.png", CV_LOAD_IMAGE_UNCHANGED);
 
 	if (!image.data)    // Check for invalid input
 	{
@@ -30,6 +30,10 @@ int main(void)
 								     constants::IMG_W, CV_8UC4);
 
 	cv::cvtColor(image, ref_img, CV_BGR2BGRA);
+	cv::Size dsize;
+	dsize.width = 100;
+	dsize.height = 100;
+	cv::resize(ref_img, ref_img, dsize);
 	run_hill_climb(ref_img);
 
 

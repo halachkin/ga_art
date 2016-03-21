@@ -83,15 +83,14 @@ Polygon & CartesianPolygon::crossover(Polygon & parent2)
 	return *this;
 }
 
-void CartesianPolygon::mutate()
+int CartesianPolygon::mutate()
 {
-	//TODO
 	Random rand;
-	int mutation_type = rand.gen_int(0, 2);
+	int mutation_type = rand.gen_int(0, 3);
 	if (mutation_type == 0)
 	{
 		cv::Point point;
-		int k = 10;
+		int k = 30;
 		std::size_t point_idx = rand.gen_int(0, this->n_vertices() - 1);
 		point.x = this->xy()[point_idx].x;
 		point.y = this->xy()[point_idx].y;
@@ -117,12 +116,16 @@ void CartesianPolygon::mutate()
 		point.y = this->xy()[2].y + dy;
 		this->set_point(2, point);
 	}
-	else
+	else if (mutation_type == 2)
 	{
 		int channel = rand.gen_int(0, 2);
-		this->set_color(channel, this->color()[channel] + rand.gen_int(-10, 10));
+		this->set_color(channel, this->color()[channel] + rand.gen_int(-30, 30));
+	}
+	else
+	{
 		this->set_alpha(this->color()[3] + rand.gen_double(-0.1, 0.1));
 	}
+	return mutation_type;
 
 
 }
@@ -166,6 +169,63 @@ const double& PolarPolygon::offset_y() const
 	return _offset_y;
 }
 
+PolarPolygon & PolarPolygon::set_r(std::size_t point_idx,  double r)
+{
+	// TODO: insert return statement here
+	this->_r[point_idx] = r;
+	_xy.clear();
+	for (uint8_t i = 0; i < _n_vertices; i++)
+	{
+		double x = _r[i] * std::cos(_angles[i]) + _offset_x;
+		double y = _r[i] * std::sin(_angles[i]) + _offset_y;
+		_xy.push_back(cv::Point(static_cast<int>(x), static_cast<int>(y)));
+	}
+	return *this;
+}
+
+PolarPolygon & PolarPolygon::set_angle(std::size_t point_idx, double angle)
+{
+	// TODO: insert return statement here
+	this->_angles[point_idx] = angle;
+	_xy.clear();
+	for (uint8_t i = 0; i < _n_vertices; i++)
+	{
+		double x = _r[i] * std::cos(_angles[i]) + _offset_x;
+		double y = _r[i] * std::sin(_angles[i]) + _offset_y;
+		_xy.push_back(cv::Point(static_cast<int>(x), static_cast<int>(y)));
+	}
+	return *this;
+}
+
+PolarPolygon & PolarPolygon::set_offset_x(double x)
+{
+	// TODO: insert return statement here
+	this->_offset_x = x;
+	_xy.clear();
+	for (uint8_t i = 0; i < _n_vertices; i++)
+	{
+		double x = _r[i] * std::cos(_angles[i]) + _offset_x;
+		double y = _r[i] * std::sin(_angles[i]) + _offset_y;
+		_xy.push_back(cv::Point(static_cast<int>(x), static_cast<int>(y)));
+	}
+	return *this;
+}
+
+PolarPolygon & PolarPolygon::set_offset_y(double y)
+{
+	// TODO: insert return statement here
+	this->_offset_y = y;
+	_xy.clear();
+	for (uint8_t i = 0; i < _n_vertices; i++)
+	{
+		double x = _r[i] * std::cos(_angles[i]) + _offset_x;
+		double y = _r[i] * std::sin(_angles[i]) + _offset_y;
+		_xy.push_back(cv::Point(static_cast<int>(x), static_cast<int>(y)));
+	}
+
+	return *this;
+}
+
 
 Polygon & PolarPolygon::crossover(Polygon & parent2)
 {
@@ -173,14 +233,38 @@ Polygon & PolarPolygon::crossover(Polygon & parent2)
 	return *this;
 }
 
-void PolarPolygon::mutate()
+int PolarPolygon::mutate()
 {
 	//TODO
 	Random rand;
-	this->_color[0] = rand.gen_int(0, 255);
-	this->_color[1] = rand.gen_int(0, 255);
-	this->_color[2] = rand.gen_int(0, 255);
-	this->_color[3] = rand.gen_double(0.1, 1.0);
+
+	int mutation_type = rand.gen_int(0, 3);
+	if (mutation_type == 0)
+	{
+		int idx = rand.gen_int(0, this->n_vertices() - 1);
+		double k = SCALE * 20;
+		this->set_r(idx, this->_r[idx] + Random().gen_double(-k, k));
+	}
+	else if (mutation_type == 1)
+	{
+		int idx = rand.gen_int(0, this->n_vertices() - 1);
+		double k = SCALE * 20;
+		this->set_angle(idx, this->_angles[idx] + Random().gen_double(-k, k));
+	}
+	else if (mutation_type == 2)
+	{
+		int channel = rand.gen_int(0, 2);
+		this->set_color(channel, this->color()[channel] + rand.gen_int(-30, 30));
+	}
+	else
+	{
+		this->set_alpha(this->color()[3] + rand.gen_double(-0.1, 0.1));
+
+		this->set_offset_x(_offset_x + rand.gen_double(-10, 10));
+		this->set_offset_y(_offset_y + rand.gen_double(-10, 10));
+	}
+	return mutation_type;
+	return 0;
 }
 
 
