@@ -31,6 +31,11 @@ public:
 	const std::vector<cv::Point>& xy() const;
 	const cv::Point* get_raw_points() const;
 
+	//setters
+	Polygon& set_point(std::size_t point_idx, cv::Point point);
+	Polygon& set_color(int channel, double value);
+	Polygon& set_alpha(double alpha);
+
 	//will crossover this with parent and save child into this	
 	virtual Polygon& crossover(Polygon& parent2) = 0;
 	virtual void mutate() = 0;

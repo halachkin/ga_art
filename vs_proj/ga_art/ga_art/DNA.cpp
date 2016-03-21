@@ -117,12 +117,14 @@ double DNA::fitness(const cv::Mat & ref_img)
 	return _fitness;
 }
 
-const cv::Mat & DNA::raster() const
+const cv::Mat & DNA::raster()
 {
-	if (!_raster.empty())
-		return _raster;
-	else
-		throw std::exception("EMPTY RASTER");
+	if (_raster.empty())
+	{
+		_raster = cv::Mat::zeros(constants::IMG_H,
+			                     constants::IMG_W, CV_8UC4);
+		draw_polygons(this->_polygons, this->_raster);
+	}
 	return _raster;
 }
 

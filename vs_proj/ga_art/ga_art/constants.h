@@ -11,10 +11,10 @@ enum class SelectionMode { RouletteWheel };
 namespace constants
 {
 	//general params
-	const std::size_t IMG_W = 100;
-	const std::size_t IMG_H = 100;
-	const std::size_t N_POLYGONS = 50;
-	const uint8_t     N_VERTICES = 5;
+	const std::size_t IMG_W = 200;
+	const std::size_t IMG_H = 200;
+	const std::size_t N_POLYGONS = 100;
+	const uint8_t     N_VERTICES = 3;
 
 	//params for generating polygons in polar cords
 	const double SCALE = 0.9; // [0; 1.0]
