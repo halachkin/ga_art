@@ -11,9 +11,6 @@
 int main(void) 
 {
 
-	DNA dna(constants::N_POLYGONS, 
-		    constants::N_VERTICES,
-		    constants::DNA_MODE);
 
 	char window[] = "img";
 
@@ -31,8 +28,8 @@ int main(void)
 
 	cv::cvtColor(image, ref_img, CV_BGR2BGRA);
 	cv::Size dsize;
-	dsize.width = 100;
-	dsize.height = 100;
+	dsize.width = constants::IMG_W;
+	dsize.height = constants::IMG_H;
 	cv::resize(ref_img, ref_img, dsize);
 	run_hill_climb(ref_img);
 

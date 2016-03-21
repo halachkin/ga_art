@@ -11,8 +11,8 @@ enum class SelectionMode { RouletteWheel };
 namespace constants
 {
 	//general params
-	const std::size_t IMG_W = 100;
-	const std::size_t IMG_H = 100;
+	const std::size_t IMG_W = 300;
+	const std::size_t IMG_H = 300;
 	const std::size_t N_POLYGONS = 100;
 	const uint8_t     N_VERTICES = 3;
 
