@@ -36,7 +36,10 @@ public:
 	static std::shared_ptr<PolarPolygon>
 	gen_random_polar_polygon(uint8_t n_vertices);
 
-	//ctors
+	//ctor
+	//will init empty DNA
+	DNA(DnaMode dna_mode = DnaMode::Cartesian);
+
 	//Will generate n random polygons 
 	DNA(std::size_t n_polygons,
 		uint8_t n_vertices,
@@ -45,11 +48,16 @@ public:
 	//Will create the DNA from the polygons
 	DNA(const std::vector< std::shared_ptr<Polygon>>& polygons);
 	
+
+	void add_random_polygon();
+	void remove_random_polygon();
+
 	//getters
 	std::size_t n_polygons() const;
 	const DnaMode& dna_mode() const;
 	const std::vector< std::shared_ptr<Polygon>>& polygons() const;
 
+	
 
 	//will compute fitness and return it
 	//computing fitness only first time! 

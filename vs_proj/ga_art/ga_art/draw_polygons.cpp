@@ -11,7 +11,7 @@ cv::Mat draw_polygons(const std::vector< std::shared_ptr<Polygon>>& polygons, cv
 			constants::IMG_W, CV_8UC4);
 		img.copyTo(imgt);
 		const cv::Point* ppt[1] = { polygons[i]->get_raw_points() };
-		int npt[] = { static_cast<int>(polygons[i]->xy().size()) };
+		int npt[] = { static_cast<int>(polygons[i]->points().size()) };
 		cv::fillPoly(
 			imgt, //img
 			ppt,

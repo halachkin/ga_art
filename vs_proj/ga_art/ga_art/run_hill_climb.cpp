@@ -10,11 +10,8 @@ void run_hill_climb(const cv::Mat & ref_img)
 
 
 	HillClimbing hill_climbing(ref_img);
-	int i = 0;
-	while (true)
+	for (int i = 0; (constants::N_GENERATIONS ==0 || i < constants::N_GENERATIONS); i++)
 	{
-		//std::cout << "fitness: " << hill_climbing.fitness() << std::endl;
-
 		if (i % 100 == 0)
 		{
 			std::cout << "fitness: " << hill_climbing.fitness() << " i:  ";
@@ -24,15 +21,22 @@ void run_hill_climb(const cv::Mat & ref_img)
 			std::cout << ", " << hill_climbing.mutation_selected[2];
 			std::cout << ", " << hill_climbing.mutation_selected[3] << std::endl;
 		}
-		i++;
 		if (i % 100 == 0)
 		{
 			cv::Mat output;
-			cv::hconcat(ref_img, hill_climbing.raster(), output);
+			cv::Mat generated_raster = hill_climbing.raster();
+			cv::Mat ref_img_copy(ref_img);
+			cv::Size dsize;
+			dsize.width = 250;
+			dsize.height = 250;
+			cv::resize(generated_raster, generated_raster, dsize);
+			cv::resize(ref_img_copy, ref_img_copy, dsize);
+			cv::hconcat(ref_img_copy, generated_raster, output);
 			cv::imshow(window, output);
 			cv::waitKey(10);
 		}
 		hill_climbing.next_generation();
+		i++;
 	}
 
 }
