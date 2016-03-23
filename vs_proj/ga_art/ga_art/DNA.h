@@ -57,7 +57,7 @@ public:
 	//add some check for different input images?
 	double fitness(const cv::Mat & ref_img);
 	//Will generate raster image
-	const cv::Mat & raster() const;
+	const cv::Mat & raster() ;
 
 	//TODO
 	//Will crossover two DNAs and return offspring
@@ -65,7 +65,7 @@ public:
 	//number of vertices as parents
 	static DNA crossover(const DNA& parent1, const DNA& parent2);
 	//TODO
-	DNA& mutate();
+	int mutate();
 
 };
 

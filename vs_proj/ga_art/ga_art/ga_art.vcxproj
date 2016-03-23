@@ -116,9 +116,11 @@
     <ClCompile Include="draw_polygons.cpp" />
     <ClCompile Include="Evolution.cpp" />
     <ClCompile Include="fitness.cpp" />
+    <ClCompile Include="hill_climbing.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Polygon.cpp" />
     <ClCompile Include="Population.cpp" />
+    <ClCompile Include="run_hill_climb.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constants.h" />
@@ -126,9 +128,11 @@
     <ClInclude Include="draw_polygons.h" />
     <ClInclude Include="Evolution.h" />
     <ClInclude Include="fitness.h" />
+    <ClInclude Include="hill_climbing.h" />
     <ClInclude Include="Population.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="Polygon.h" />
+    <ClInclude Include="run_hill_climb.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

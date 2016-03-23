@@ -31,9 +31,14 @@ public:
 	const std::vector<cv::Point>& xy() const;
 	const cv::Point* get_raw_points() const;
 
+	//setters
+	Polygon& set_point(std::size_t point_idx, cv::Point point);
+	Polygon& set_color(int channel, double value);
+	Polygon& set_alpha(double alpha);
+
 	//will crossover this with parent and save child into this	
 	virtual Polygon& crossover(Polygon& parent2) = 0;
-	virtual void mutate() = 0;
+	virtual int mutate() = 0;
 };
 
 //Polygon with vertices in Cartesian coordinates
@@ -45,7 +50,7 @@ public:
 					 std::vector<cv::Point>& xy);
 
 	Polygon& crossover(Polygon& parent2);
-	void mutate();
+	int mutate();
 
 };
 
@@ -76,8 +81,14 @@ public:
 	const double& offset_x() const;
 	const double& offset_y() const;
 
+	PolarPolygon& set_r(std::size_t point_idx, double r);
+	PolarPolygon& set_angle(std::size_t point_idx, double angle);
+	PolarPolygon& set_offset_x(double x);
+	PolarPolygon& set_offset_y(double y);
+
+
 	Polygon& crossover(Polygon& parent2);
-	void mutate();
+	int mutate();
 
 };
 

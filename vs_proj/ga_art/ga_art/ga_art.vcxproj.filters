@@ -36,6 +36,12 @@
     <ClCompile Include="Evolution.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="hill_climbing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="run_hill_climb.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Polygon.h">
@@ -60,6 +66,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Evolution.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hill_climbing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="run_hill_climb.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

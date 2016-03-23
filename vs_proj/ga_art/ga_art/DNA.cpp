@@ -117,12 +117,14 @@ double DNA::fitness(const cv::Mat & ref_img)
 	return _fitness;
 }
 
-const cv::Mat & DNA::raster() const
+const cv::Mat & DNA::raster()
 {
-	if (!_raster.empty())
-		return _raster;
-	else
-		throw std::exception("EMPTY RASTER");
+	if (_raster.empty())
+	{
+		_raster = cv::Mat::zeros(constants::IMG_H,
+			                     constants::IMG_W, CV_8UC4);
+		draw_polygons(this->_polygons, this->_raster);
+	}
 	return _raster;
 }
 
@@ -140,12 +142,11 @@ DNA DNA::crossover(const DNA & parent1, const DNA & parent2)
 	return DNA(polygons);
 }
 
-DNA & DNA::mutate()
+int DNA::mutate()
 {
 	//TODO
 	int idx = Random().gen_int(0, static_cast<int>(_polygons.size() - 1));
-	_polygons[idx]->mutate();
 	_fitness_computed = false;
 	_raster.release();
-	return *this;
+	return _polygons[idx]->mutate();
 }
