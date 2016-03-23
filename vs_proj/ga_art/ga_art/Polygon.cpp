@@ -24,14 +24,14 @@ const cv::Scalar& Polygon::color() const
 
 const cv::Point * Polygon::get_raw_points() const
 {
-	return &_xy[0];
+	return &_points[0];
 }
 
 
 
-const std::vector<cv::Point>& Polygon::xy() const
+const std::vector<cv::Point>& Polygon::points() const
 {
-	return _xy;
+	return _points;
 }
 
 
@@ -45,7 +45,7 @@ Polygon & Polygon::set_point(std::size_t point_idx, cv::Point point)
 	point.x = point.x < 0 ? 0 : point.x;
 	point.y = point.y < 0 ? 0 : point.y;
 
-	this->_xy[point_idx] = point;
+	this->_points[point_idx] = point;
 	return *this;
 }
 
@@ -72,9 +72,9 @@ Polygon & Polygon::set_alpha(double alpha)
 CartesianPolygon::CartesianPolygon(
 	uint8_t n_vertices,
 	cv::Scalar& color,
-	std::vector<cv::Point>& xy) : Polygon(n_vertices, color)
+	std::vector<cv::Point>& points) : Polygon(n_vertices, color)
 {
-	_xy = xy;
+	_points = points;
 }
 
 Polygon & CartesianPolygon::crossover(Polygon & parent2)
@@ -92,8 +92,8 @@ int CartesianPolygon::mutate()
 		cv::Point point;
 		int k = 30;
 		std::size_t point_idx = rand.gen_int(0, this->n_vertices() - 1);
-		point.x = this->xy()[point_idx].x;
-		point.y = this->xy()[point_idx].y;
+		point.x = this->points()[point_idx].x;
+		point.y = this->points()[point_idx].y;
 		int dx = rand.gen_int(-k, k);
 		int dy = rand.gen_int(-k, k);
 		point.x += dx;
@@ -106,14 +106,14 @@ int CartesianPolygon::mutate()
 		int k = 10;
 		int dx = rand.gen_int(-k, k);
 		int dy = rand.gen_int(-k, k);
-		point.x = this->xy()[0].x + dx;
-		point.y = this->xy()[0].y + dy;
+		point.x = this->points()[0].x + dx;
+		point.y = this->points()[0].y + dy;
 		this->set_point(0, point);
-		point.x = this->xy()[1].x + dx;
-		point.y = this->xy()[1].y + dy;
+		point.x = this->points()[1].x + dx;
+		point.y = this->points()[1].y + dy;
 		this->set_point(1, point);
-		point.x = this->xy()[2].x + dx;
-		point.y = this->xy()[2].y + dy;
+		point.x = this->points()[2].x + dx;
+		point.y = this->points()[2].y + dy;
 		this->set_point(2, point);
 	}
 	else if (mutation_type == 2)
@@ -145,7 +145,7 @@ PolarPolygon::PolarPolygon(uint8_t n_vertices,
 	{
 		double x = _r[i] * std::cos(_angles[i]) + offset_x;
 		double y = _r[i] * std::sin(_angles[i]) + offset_y;
-		_xy.push_back(cv::Point(static_cast<int>(x), static_cast<int>(y)));
+		_points.push_back(cv::Point(static_cast<int>(x), static_cast<int>(y)));
 	}
 }
 
@@ -173,12 +173,12 @@ PolarPolygon & PolarPolygon::set_r(std::size_t point_idx,  double r)
 {
 	// TODO: insert return statement here
 	this->_r[point_idx] = r;
-	_xy.clear();
+	_points.clear();
 	for (uint8_t i = 0; i < _n_vertices; i++)
 	{
 		double x = _r[i] * std::cos(_angles[i]) + _offset_x;
 		double y = _r[i] * std::sin(_angles[i]) + _offset_y;
-		_xy.push_back(cv::Point(static_cast<int>(x), static_cast<int>(y)));
+		_points.push_back(cv::Point(static_cast<int>(x), static_cast<int>(y)));
 	}
 	return *this;
 }
@@ -187,12 +187,12 @@ PolarPolygon & PolarPolygon::set_angle(std::size_t point_idx, double angle)
 {
 	// TODO: insert return statement here
 	this->_angles[point_idx] = angle;
-	_xy.clear();
+	_points.clear();
 	for (uint8_t i = 0; i < _n_vertices; i++)
 	{
 		double x = _r[i] * std::cos(_angles[i]) + _offset_x;
 		double y = _r[i] * std::sin(_angles[i]) + _offset_y;
-		_xy.push_back(cv::Point(static_cast<int>(x), static_cast<int>(y)));
+		_points.push_back(cv::Point(static_cast<int>(x), static_cast<int>(y)));
 	}
 	return *this;
 }
@@ -201,12 +201,12 @@ PolarPolygon & PolarPolygon::set_offset_x(double x)
 {
 	// TODO: insert return statement here
 	this->_offset_x = x;
-	_xy.clear();
+	_points.clear();
 	for (uint8_t i = 0; i < _n_vertices; i++)
 	{
 		double x = _r[i] * std::cos(_angles[i]) + _offset_x;
 		double y = _r[i] * std::sin(_angles[i]) + _offset_y;
-		_xy.push_back(cv::Point(static_cast<int>(x), static_cast<int>(y)));
+		_points.push_back(cv::Point(static_cast<int>(x), static_cast<int>(y)));
 	}
 	return *this;
 }
@@ -215,12 +215,12 @@ PolarPolygon & PolarPolygon::set_offset_y(double y)
 {
 	// TODO: insert return statement here
 	this->_offset_y = y;
-	_xy.clear();
+	_points.clear();
 	for (uint8_t i = 0; i < _n_vertices; i++)
 	{
 		double x = _r[i] * std::cos(_angles[i]) + _offset_x;
 		double y = _r[i] * std::sin(_angles[i]) + _offset_y;
-		_xy.push_back(cv::Point(static_cast<int>(x), static_cast<int>(y)));
+		_points.push_back(cv::Point(static_cast<int>(x), static_cast<int>(y)));
 	}
 
 	return *this;

@@ -8,13 +8,9 @@
 
 #include "run_hill_climb.h"
 
-int main(void) 
+int main() 
 {
 
-
-	char window[] = "img";
-
-	/// Create black empty images
 	cv::Mat image = cv::imread("test_samples\\example1.png", CV_LOAD_IMAGE_UNCHANGED);
 
 	if (!image.data)    // Check for invalid input
@@ -35,6 +31,6 @@ int main(void)
 
 
 	
-	return(0);
+	return 0;
 }
 

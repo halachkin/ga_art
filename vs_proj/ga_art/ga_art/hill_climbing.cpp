@@ -7,10 +7,10 @@ using namespace constants;
 HillClimbing::HillClimbing(const cv::Mat & ref_img)
 	:
 	_ref_img(ref_img),
-	_current_dna(DNA(N_POLYGONS, N_VERTICES, DNA_MODE))
+	_current_dna(DNA(DNA_MODE))
 
 {
-	
+	_current_dna.add_random_polygon();
 }
 
 void HillClimbing::next_generation()

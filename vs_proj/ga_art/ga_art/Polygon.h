@@ -19,7 +19,7 @@ protected:
 	//polygon color BGRA
 	cv::Scalar _color;
 	//polygon vertices in Cartesian coordinates
-	std::vector<cv::Point> _xy;
+	std::vector<cv::Point> _points;
 	
 public:
 	//ctor
@@ -28,7 +28,7 @@ public:
 	//getters
 	const uint8_t& n_vertices() const;
 	const cv::Scalar& color() const;
-	const std::vector<cv::Point>& xy() const;
+	const std::vector<cv::Point>& points() const;
 	const cv::Point* get_raw_points() const;
 
 	//setters
@@ -41,18 +41,20 @@ public:
 	virtual int mutate() = 0;
 };
 
+
 //Polygon with vertices in Cartesian coordinates
 class CartesianPolygon : public Polygon
 {
 public:
 	CartesianPolygon(uint8_t n_vertices,
 					 cv::Scalar& color,
-					 std::vector<cv::Point>& xy);
+					 std::vector<cv::Point>& points);
 
 	Polygon& crossover(Polygon& parent2);
 	int mutate();
 
 };
+
 
 //Polygon with vertices in Polar coordinates
 class PolarPolygon : public Polygon

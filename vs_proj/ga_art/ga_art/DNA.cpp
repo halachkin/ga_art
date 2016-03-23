@@ -25,15 +25,15 @@ std::shared_ptr<CartesianPolygon>
 DNA::gen_random_cartesian_polygon(uint8_t n_vertices)
 {
 	Random rand;
-	std::vector<cv::Point> xy;
+	std::vector<cv::Point> points;
 	for (uint8_t i = 0; i < n_vertices; i++)
 	{
 		int x = rand.gen_int(0, IMG_W);
 		int y = rand.gen_int(0, IMG_H);
-		xy.push_back(cv::Point(x, y));
+		points.push_back(cv::Point(x, y));
 	}
 	return std::shared_ptr<CartesianPolygon>(
-		new CartesianPolygon(n_vertices, gen_random_color(), xy));
+		new CartesianPolygon(n_vertices, gen_random_color(), points));
 }
 
 std::shared_ptr<PolarPolygon>
@@ -54,6 +54,12 @@ DNA::gen_random_polar_polygon(uint8_t n_vertices)
 	return std::shared_ptr<PolarPolygon>(
 		new PolarPolygon(n_vertices, gen_random_color(),
 			r, angles, offset_x, offset_y));
+}
+
+DNA::DNA(DnaMode dna_mode) :
+_dna_mode(dna_mode)
+{
+	
 }
 
 DNA::DNA(std::size_t n_polygons,
@@ -85,6 +91,21 @@ _polygons(polygons)
 	_fitness_computed = false;
 
 }
+
+void DNA::add_random_polygon()
+{
+	if (this->_dna_mode == DnaMode::Cartesian)
+		_polygons.push_back(gen_random_cartesian_polygon(constants::N_VERTICES));
+	else if (this->_dna_mode == DnaMode::Polar)
+		_polygons.push_back(gen_random_polar_polygon(constants::N_VERTICES));
+}
+
+void DNA::remove_random_polygon()
+{
+	int idx = Random().gen_int(0, static_cast<int>(this->_polygons.size() - 1));
+	this->_polygons.erase(this->_polygons.begin() + idx);
+}
+
 std::size_t DNA::n_polygons() const
 {
 	return _polygons.size();
@@ -144,9 +165,26 @@ DNA DNA::crossover(const DNA & parent1, const DNA & parent2)
 
 int DNA::mutate()
 {
-	//TODO
-	int idx = Random().gen_int(0, static_cast<int>(_polygons.size() - 1));
+	int mutation_type = Random().gen_int(0, 1);
+	if (mutation_type == -1)
+	{
+		int idx = Random().gen_int(0, static_cast<int>(_polygons.size() - 1));
+		_polygons[idx]->mutate();
+	}
+	else
+	{
+		if (Random().gen_int(0, 1) == 0)
+		{
+			this->add_random_polygon();
+			mutation_type = 2;
+		}
+		else if(!this->_polygons.empty())
+		{
+			this->remove_random_polygon();
+			mutation_type = 3;
+		}
+	}
 	_fitness_computed = false;
 	_raster.release();
-	return _polygons[idx]->mutate();
+	return mutation_type;
 }
