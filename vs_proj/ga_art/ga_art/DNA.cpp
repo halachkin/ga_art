@@ -133,7 +133,7 @@ double DNA::fitness(const cv::Mat & ref_img)
 				                     constants::IMG_W, CV_8UC4);
 			draw_polygons(this->_polygons, this->_raster);
 		}
-		_fitness = fitness::mean_square_err(ref_img, _raster);
+		_fitness = fitness::fitness(ref_img, _raster, FITNESS_MODE);
 	}
 	return _fitness;
 }

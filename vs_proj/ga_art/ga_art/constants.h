@@ -6,7 +6,7 @@
 
 enum class DnaMode { Polar, Cartesian };
 enum class SelectionMode { RouletteWheel };
-
+enum class FitnessMode { MSE, PSNR, SSIM };
 
 namespace constants
 {
@@ -14,6 +14,7 @@ namespace constants
 	const std::size_t IMG_W = 300;
 	const std::size_t IMG_H = 300;
 	const std::size_t N_POLYGONS = 100;
+	const std::size_t N_GENERATIONS = 100000;
 	const uint8_t     N_VERTICES = 3;
 
 	//params for generating polygons in polar cords
@@ -21,6 +22,8 @@ namespace constants
 	const double OFFSET = SCALE * 0.5 * std::min(IMG_H, IMG_W);
 
 	const DnaMode DNA_MODE = DnaMode::Polar;
+
+	const FitnessMode FITNESS_MODE = FitnessMode::MSE;
 
 	//Evolution params
 	const std::size_t POPULATION_SIZE = 20;
