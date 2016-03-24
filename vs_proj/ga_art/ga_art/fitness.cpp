@@ -12,6 +12,12 @@ double fitness::mean_square_err(const cv::Mat &img1, const cv::Mat &img2)
 	return (bgr[0] + bgr[1] + bgr[2]) / 3.0 ;
 }
 
+////fitness::psnr //rgb
+//double fitness::mean_square_err(const cv::Mat &img1, const cv::Mat &img2)
+//{
+//	return 10.0*log10( (255 * 255) / (fitness::mean_square_err(img1, img2)) );
+//}
+
 ////fitness::ssim //rgb
 //double fitness::mean_square_err(const cv::Mat &img1, const cv::Mat &img2)
 //{
