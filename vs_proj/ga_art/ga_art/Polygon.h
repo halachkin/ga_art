@@ -33,6 +33,7 @@ public:
 
 	//setters
 	Polygon& set_point(std::size_t point_idx, cv::Point point);
+	Polygon& scale_points(double scale_factor);
 	Polygon& set_color(int channel, double value);
 	Polygon& set_alpha(double alpha);
 

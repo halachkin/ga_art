@@ -7,11 +7,12 @@
 
 
 #include "run_hill_climb.h"
+#include "hill_climb_time_meas.h"
 
 int main() 
 {
 
-	cv::Mat image = cv::imread("test_samples\\example1.png", CV_LOAD_IMAGE_UNCHANGED);
+	cv::Mat image = cv::imread("test_samples\\example5.png", CV_LOAD_IMAGE_UNCHANGED);
 
 	if (!image.data)    // Check for invalid input
 	{
@@ -27,10 +28,10 @@ int main()
 	dsize.width = constants::IMG_W;
 	dsize.height = constants::IMG_H;
 	cv::resize(ref_img, ref_img, dsize);
+
 	run_hill_climb(ref_img);
 
-
-	
+	//hill_climb_time_meas();
 	return 0;
 }
 

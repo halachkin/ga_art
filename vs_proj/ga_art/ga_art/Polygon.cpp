@@ -49,6 +49,16 @@ Polygon & Polygon::set_point(std::size_t point_idx, cv::Point point)
 	return *this;
 }
 
+Polygon & Polygon::scale_points(double scale_factor)
+{
+	for (int i = 0; i < this->_points.size(); i++)
+	{
+		this->_points[i].x *= scale_factor;
+		this->_points[i].y *= scale_factor;
+	}
+	return *this;
+}
+
 
 
 Polygon & Polygon::set_color(int channel, double value)

@@ -14,15 +14,20 @@ private:
 	const cv::Mat & _ref_img;
 
 public:
+	HillClimbing(const cv::Mat & ref_img);
+
 	unsigned int n_generation;
 	unsigned int n_selected;
-	unsigned int mutation_selected[3] = { 0 };
+	unsigned int mutation_selected[2] = { 0 };
+	std::size_t n_polygons = 0;
 
-	HillClimbing(const cv::Mat & ref_img);
+	
 
 	void next_generation();
 	double fitness();
 	const cv::Mat & raster();
+
+	const DNA& dna() const;
 
 
 

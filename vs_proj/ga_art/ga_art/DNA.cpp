@@ -106,6 +106,7 @@ void DNA::remove_random_polygon()
 	this->_polygons.erase(this->_polygons.begin() + idx);
 }
 
+
 std::size_t DNA::n_polygons() const
 {
 	return _polygons.size();
@@ -126,14 +127,8 @@ double DNA::fitness(const cv::Mat & ref_img)
 {
 	if (!_fitness_computed)
 	{
-		_fitness_computed = true;
-		if (_raster.empty())
-		{
-			_raster = cv::Mat::zeros(constants::IMG_H,
-				                     constants::IMG_W, CV_8UC4);
-			draw_polygons(this->_polygons, this->_raster);
-		}
-		_fitness = fitness::fitness(ref_img, _raster, FITNESS_MODE);
+		this->_fitness_computed = true;
+		this->_fitness = fitness::fitness(ref_img, this->raster(), FITNESS_MODE);
 	}
 	return _fitness;
 }
@@ -166,23 +161,14 @@ DNA DNA::crossover(const DNA & parent1, const DNA & parent2)
 int DNA::mutate()
 {
 	int mutation_type = Random().gen_int(0, 1);
-	if (mutation_type == -1)
+
+	if (mutation_type == 0)
 	{
-		int idx = Random().gen_int(0, static_cast<int>(_polygons.size() - 1));
-		_polygons[idx]->mutate();
+		this->add_random_polygon();
 	}
-	else
+	else if(!this->_polygons.empty())
 	{
-		if (Random().gen_int(0, 1) == 0)
-		{
-			this->add_random_polygon();
-			mutation_type = 2;
-		}
-		else if(!this->_polygons.empty())
-		{
-			this->remove_random_polygon();
-			mutation_type = 3;
-		}
+		this->remove_random_polygon();
 	}
 	_fitness_computed = false;
 	_raster.release();

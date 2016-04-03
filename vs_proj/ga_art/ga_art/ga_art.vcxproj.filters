@@ -36,10 +36,13 @@
     <ClCompile Include="Evolution.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="hill_climbing.cpp">
+    <ClCompile Include="run_hill_climb.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="run_hill_climb.cpp">
+    <ClCompile Include="HillClimbing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hill_climb_time_meas.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -68,10 +71,13 @@
     <ClInclude Include="Evolution.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hill_climbing.h">
+    <ClInclude Include="run_hill_climb.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="run_hill_climb.h">
+    <ClInclude Include="HillClimbing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hill_climb_time_meas.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

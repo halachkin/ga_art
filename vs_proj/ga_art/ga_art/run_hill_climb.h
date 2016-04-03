@@ -11,7 +11,7 @@
 
 #include "constants.h"
 #include "DNA.h"
-#include "hill_climbing.h"
+#include "HillClimbing.h"
 
 
 void run_hill_climb(const cv::Mat & ref_img);

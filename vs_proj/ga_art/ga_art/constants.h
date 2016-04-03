@@ -11,19 +11,19 @@ enum class FitnessMode { MSE, PSNR, SSIM };
 namespace constants
 {
 	//general params
-	const std::size_t IMG_W = 300;
-	const std::size_t IMG_H = 300;
+	const std::size_t IMG_W = 40;
+	const std::size_t IMG_H = 40;
 	const std::size_t N_POLYGONS = 100;
-	const std::size_t N_GENERATIONS = 100000;
+	const std::size_t N_GENERATIONS = 0;
 	const uint8_t     N_VERTICES = 3;
 
 	//params for generating polygons in polar cords
-	const double SCALE = 0.5; // [0; 1.0]
+	const double SCALE = 0.2; // [0; 1.0]
 	const double OFFSET = SCALE * 0.5 * std::min(IMG_H, IMG_W);
 
-	const DnaMode DNA_MODE = DnaMode::Polar;
+	const DnaMode DNA_MODE = DnaMode::Cartesian;
 
-	const FitnessMode FITNESS_MODE = FitnessMode::MSE;
+	const FitnessMode FITNESS_MODE = FitnessMode::SSIM;
 
 	//Evolution params
 	const std::size_t POPULATION_SIZE = 20;

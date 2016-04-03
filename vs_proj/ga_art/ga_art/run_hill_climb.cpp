@@ -12,14 +12,13 @@ void run_hill_climb(const cv::Mat & ref_img)
 	HillClimbing hill_climbing(ref_img);
 	for (int i = 0; (constants::N_GENERATIONS ==0 || i < constants::N_GENERATIONS); i++)
 	{
-		if (i % 100 == 0)
+		if (i % 1000 == 0)
 		{
 			std::cout << "fitness: " << hill_climbing.fitness() << " i:  ";
-			std::cout << i << "   selected:  " << hill_climbing.n_selected;
+			std::cout << i << " selected:  " << hill_climbing.n_selected;
 			std::cout << "  mutation: " << hill_climbing.mutation_selected[0];
-			std::cout << ", "<< hill_climbing.mutation_selected[1];
-			std::cout << ", " << hill_climbing.mutation_selected[2];
-			std::cout << ", " << hill_climbing.mutation_selected[3] << std::endl;
+			std::cout << ", " << hill_climbing.mutation_selected[1];
+			std::cout << "  n poly: " << hill_climbing.n_polygons <<std::endl;
 		}
 		if (i % 100 == 0)
 		{
