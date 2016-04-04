@@ -52,6 +52,7 @@ public:
 	void add_random_polygon();
 	void remove_random_polygon();
 
+
 	//getters
 	std::size_t n_polygons() const;
 	const DnaMode& dna_mode() const;
@@ -66,6 +67,8 @@ public:
 	double fitness(const cv::Mat & ref_img);
 	//Will generate raster image
 	const cv::Mat & raster() ;
+	//Will generate raster image of specific size
+	//const cv::Mat & raster(cv::Size dsize);
 
 	//TODO
 	//Will crossover two DNAs and return offspring

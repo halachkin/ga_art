@@ -28,7 +28,6 @@ const cv::Point * Polygon::get_raw_points() const
 }
 
 
-
 const std::vector<cv::Point>& Polygon::points() const
 {
 	return _points;
@@ -48,8 +47,6 @@ Polygon & Polygon::set_point(std::size_t point_idx, cv::Point point)
 	this->_points[point_idx] = point;
 	return *this;
 }
-
-
 
 Polygon & Polygon::set_color(int channel, double value)
 {
@@ -261,7 +258,7 @@ int PolarPolygon::mutate()
 		this->set_alpha(this->color()[3] + rand.gen_double(-0.1, 0.1));
 
 		this->set_offset_x(_offset_x + rand.gen_double(-10, 10));
-		this->set_offset_y(_offset_y + rand.gen_double(-10, 10));
+		this->set_offset_y(_offset_y + rand.gen_double(-10, 10));                    
 	}
 	return mutation_type;
 	return 0;
