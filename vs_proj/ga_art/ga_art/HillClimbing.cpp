@@ -23,14 +23,19 @@ void HillClimbing::next_generation()
 	double f2 = this->_current_dna.fitness(_ref_img);
 
 	if (f1 < f2 
-		//|| Random().gen_double(0.0, 1.0) < 0.001 /this->n_selected
-		|| (std::abs(f1 - f2) < f2/10000.0 && mutation == 1)
+		|| 
+		(ANNEALING_SIMULATION && 
+		 Random().gen_double(0.0, 1.0) < ANNEALING_SIMULATION_RATE / this->n_selected)
+		|| 
+		(REMOVING_POLYGON &&
+	     std::abs(f1 - f2) < REMOVING_POLYGON_TOLERANCE * f2 / 100.0
+	     && mutation == 1)
 	    )
 	{
 		this->_current_dna = next_dna;
 		//log evolution info
 		this->n_selected++;
-		//0 - add, 1 - remove
+		//log mutation info, 0 - add, 1 - remove
 		this->mutation_selected[mutation]++;
 	}
 

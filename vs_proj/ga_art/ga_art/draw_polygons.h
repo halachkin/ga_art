@@ -11,6 +11,7 @@
 
 
 cv::Mat draw_polygons(const std::vector< std::shared_ptr<Polygon>>& polygons, 
-	                  cv::Mat &img);
+	                  cv::Mat &img,
+	                  double* scale = nullptr);
 
 #endif

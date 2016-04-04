@@ -166,7 +166,7 @@ int DNA::mutate()
 	{
 		this->add_random_polygon();
 	}
-	else if(!this->_polygons.empty())
+	else if(mutation_type == 1 && !this->_polygons.empty())
 	{
 		this->remove_random_polygon();
 	}
