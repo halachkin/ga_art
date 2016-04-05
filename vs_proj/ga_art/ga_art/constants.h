@@ -4,20 +4,23 @@
 #include <cstdint>
 #include <algorithm>
 
-enum class DnaMode { Polar, Cartesian };
-enum class FitnessMode { MSE, PSNR, SSIM };
-enum class SelectionMode { RouletteWheel };
+enum class DnaMode { Polar = 0, Cartesian = 1 };
+enum class FitnessMode { MSE = 0, PSNR = 1, SSIM = 2 };
+enum class SelectionMode { RouletteWheel = 0};
 
 
 namespace constants
 {
 	//general params
-	const std::size_t DISPLAY_IMG_W = 200;
-	const std::size_t DISPLAY_IMG_H = 200;
-	const std::size_t IMG_W = 30;
-	const std::size_t IMG_H = 30;
+	const bool LOGGING = true;
+	const std::size_t LOG_TO_CSV_EVERY_N_GEN = 10;
+	const std::size_t LOG_IMG_EVERY_N_GEN = 2000;
+	const std::size_t DISPLAY_IMG_W = 400;
+	const std::size_t DISPLAY_IMG_H = 400;
+	const std::size_t IMG_W = 40;
+	const std::size_t IMG_H = 40;
 	const uint8_t     N_VERTICES = 3;
-	const std::size_t N_GENERATIONS = 0;
+	const std::size_t N_GENERATIONS = 1000; 
 	const FitnessMode FITNESS_MODE = FitnessMode::MSE;
 	const DnaMode DNA_MODE = DnaMode::Cartesian;
 
@@ -28,10 +31,10 @@ namespace constants
 
 
 	//Hill climbing params
-	const bool   ANNEALING_SIMULATION = false;
-	const double ANNEALING_SIMULATION_RATE = 0.001;
+	const bool   ANNEALING_SIMULATION = true;
+	const double ANNEALING_SIMULATION_RATE = 0.0001;
 	const bool   REMOVING_POLYGON = true;
-	const double REMOVING_POLYGON_TOLERANCE = 0.2; // in %
+	const double REMOVING_POLYGON_TOLERANCE = 0.1; // in %
 
 	//Classic genetic algorithm params
 	const std::size_t N_POLYGONS = 100;
@@ -39,6 +42,10 @@ namespace constants
 	const std::size_t ELITE_SIZE = 3;
 	const SelectionMode SELECTION_MODE = SelectionMode::RouletteWheel;
 
+	//to log params
+	const std::string DNA_MODE_STR[2] = { "Polar", "Cartesian" };
+	const std::string FITNESS_MODE_STR[3] = { "MSE", "PSNR", "SSIM" };
+	const std::string SELECTEION_MODE_STR[1] = { "RouletteWheel" };
 
 }
 #endif

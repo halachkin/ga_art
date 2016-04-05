@@ -10,7 +10,7 @@
 #include "Polygon.h"
 
 
-cv::Mat draw_polygons(const std::vector< std::shared_ptr<Polygon>>& polygons, 
+cv::Mat draw_polygons(const std::vector< std::shared_ptr<GeneticPolygon>>& polygons, 
 	                  cv::Mat &img,
 	                  double* scale = nullptr);
 

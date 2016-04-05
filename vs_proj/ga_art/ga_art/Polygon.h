@@ -10,20 +10,20 @@
 
 #include "constants.h"
 
-//Abstract Polygon class
-class Polygon
+//Abstract GeneticPolygon class
+class GeneticPolygon
 {
 protected:
 	//number of vertices
 	uint8_t _n_vertices;
-	//polygon color BGRA
+	//GeneticPolygon color BGRA
 	cv::Scalar _color;
-	//polygon vertices in Cartesian coordinates
+	//GeneticPolygon vertices in Cartesian coordinates
 	std::vector<cv::Point> _points;
 	
 public:
 	//ctor
-	Polygon(uint8_t n_vertices, cv::Scalar& color);
+	GeneticPolygon(uint8_t n_vertices, cv::Scalar& color);
 
 	//getters
 	const uint8_t& n_vertices() const;
@@ -32,32 +32,32 @@ public:
 	const cv::Point* get_raw_points() const;
 
 	//setters
-	Polygon& set_point(std::size_t point_idx, cv::Point point);
-	Polygon& set_color(int channel, double value);
-	Polygon& set_alpha(double alpha);
+	GeneticPolygon& set_point(std::size_t point_idx, cv::Point point);
+	GeneticPolygon& set_color(int channel, double value);
+	GeneticPolygon& set_alpha(double alpha);
 
 	//will crossover this with parent and save child into this	
-	virtual Polygon& crossover(Polygon& parent2) = 0;
+	virtual GeneticPolygon& crossover(GeneticPolygon& parent2) = 0;
 	virtual int mutate() = 0;
 };
 
 
 //Polygon with vertices in Cartesian coordinates
-class CartesianPolygon : public Polygon
+class CartesianPolygon : public GeneticPolygon
 {
 public:
 	CartesianPolygon(uint8_t n_vertices,
 					 cv::Scalar& color,
 					 std::vector<cv::Point>& points);
 
-	Polygon& crossover(Polygon& parent2);
+	GeneticPolygon& crossover(GeneticPolygon& parent2);
 	int mutate();
 
 };
 
 
 //Polygon with vertices in Polar coordinates
-class PolarPolygon : public Polygon
+class PolarPolygon : public GeneticPolygon
 {
 private:
 	//polygon vertices in polar cords 
@@ -89,7 +89,7 @@ public:
 	PolarPolygon& set_offset_y(double y);
 
 
-	Polygon& crossover(Polygon& parent2);
+	GeneticPolygon& crossover(GeneticPolygon& parent2);
 	int mutate();
 
 };

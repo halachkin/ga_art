@@ -9,32 +9,32 @@ using namespace constants;
 
 //Polygon class
 
-Polygon::Polygon(uint8_t n_vertices, cv::Scalar& color) :
+GeneticPolygon::GeneticPolygon(uint8_t n_vertices, cv::Scalar& color) :
 	_n_vertices(n_vertices), _color(color) {}
 
-const uint8_t& Polygon::n_vertices() const
+const uint8_t& GeneticPolygon::n_vertices() const
 { 
 	return _n_vertices;
 }
 
-const cv::Scalar& Polygon::color() const
+const cv::Scalar& GeneticPolygon::color() const
 {
 	return _color;
 }
 
-const cv::Point * Polygon::get_raw_points() const
+const cv::Point * GeneticPolygon::get_raw_points() const
 {
 	return &_points[0];
 }
 
 
-const std::vector<cv::Point>& Polygon::points() const
+const std::vector<cv::Point>& GeneticPolygon::points() const
 {
 	return _points;
 }
 
 
-Polygon & Polygon::set_point(std::size_t point_idx, cv::Point point)
+GeneticPolygon & GeneticPolygon::set_point(std::size_t point_idx, cv::Point point)
 {
 	if (point_idx > _n_vertices)
 		point_idx = _n_vertices - 1;
@@ -48,7 +48,7 @@ Polygon & Polygon::set_point(std::size_t point_idx, cv::Point point)
 	return *this;
 }
 
-Polygon & Polygon::set_color(int channel, double value)
+GeneticPolygon & GeneticPolygon::set_color(int channel, double value)
 {
 	value = value > 255 ? 255 : value;
 	value = value < 0 ? 0 : value;
@@ -56,7 +56,7 @@ Polygon & Polygon::set_color(int channel, double value)
 	return *this;
 }
 
-Polygon & Polygon::set_alpha(double alpha)
+GeneticPolygon & GeneticPolygon::set_alpha(double alpha)
 {
 	alpha = alpha > 1.0 ? 1.0 : alpha;
 	alpha = alpha < 0.0 ? 0.0 : alpha;
@@ -69,12 +69,12 @@ Polygon & Polygon::set_alpha(double alpha)
 CartesianPolygon::CartesianPolygon(
 	uint8_t n_vertices,
 	cv::Scalar& color,
-	std::vector<cv::Point>& points) : Polygon(n_vertices, color)
+	std::vector<cv::Point>& points) : GeneticPolygon(n_vertices, color)
 {
 	_points = points;
 }
 
-Polygon & CartesianPolygon::crossover(Polygon & parent2)
+GeneticPolygon & CartesianPolygon::crossover(GeneticPolygon & parent2)
 {
 	//TODO
 	return *this;
@@ -134,7 +134,7 @@ PolarPolygon::PolarPolygon(uint8_t n_vertices,
 	std::vector<double>& angles,
 	double offset_x,
 	double offset_y) :
-	Polygon(n_vertices, color), _r(r), _angles(angles), _offset_x(offset_x),
+	GeneticPolygon(n_vertices, color), _r(r), _angles(angles), _offset_x(offset_x),
 	_offset_y(offset_y)
 {
 	//compute cartesian cords
@@ -224,7 +224,7 @@ PolarPolygon & PolarPolygon::set_offset_y(double y)
 }
 
 
-Polygon & PolarPolygon::crossover(Polygon & parent2)
+GeneticPolygon & PolarPolygon::crossover(GeneticPolygon & parent2)
 {
 	//TODO
 	return *this;

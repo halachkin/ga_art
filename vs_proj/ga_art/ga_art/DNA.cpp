@@ -79,7 +79,7 @@ DNA::DNA(std::size_t n_polygons,
 
 }
 
-DNA::DNA(const std::vector< std::shared_ptr<Polygon>>& polygons) :
+DNA::DNA(const std::vector< std::shared_ptr<GeneticPolygon>>& polygons) :
 _polygons(polygons)
 {
 	if (typeid(*polygons[0].get()) == typeid(CartesianPolygon))
@@ -118,7 +118,7 @@ const DnaMode & DNA::dna_mode() const
 }
 
 
-const std::vector< std::shared_ptr<Polygon>>& DNA::polygons() const
+const std::vector< std::shared_ptr<GeneticPolygon>>& DNA::polygons() const
 {
 	return _polygons;
 }
@@ -148,7 +148,7 @@ DNA DNA::crossover(const DNA & parent1, const DNA & parent2)
 {
 	//TODO 
 	//There is just some naive version to make code work
-	std::vector< std::shared_ptr<Polygon>> polygons(
+	std::vector< std::shared_ptr<GeneticPolygon>> polygons(
 		parent1.polygons().begin(),
 		parent1.polygons().begin() + parent1.n_polygons() / 2);
 	polygons.insert(polygons.end(), parent2.polygons().begin(),
