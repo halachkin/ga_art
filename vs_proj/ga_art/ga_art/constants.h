@@ -7,6 +7,7 @@
 enum class DnaMode { Polar, Cartesian };
 enum class FitnessMode { MSE, PSNR, SSIM };
 enum class SelectionMode { RouletteWheel };
+enum class ImageMode { Grayscale, BGR };
 
 
 namespace constants

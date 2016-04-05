@@ -2,6 +2,7 @@
 #include "draw_polygons.h"
 
 using namespace constants;
+extern ImageMode IMAGE_MODE;
 
 void run_hill_climb(const cv::Mat & image)
 {
@@ -10,11 +11,13 @@ void run_hill_climb(const cv::Mat & image)
 	cv::namedWindow(window);
 	cv::moveWindow(window, 10, 500);
 
-
 	cv::Mat ref_img = cv::Mat::zeros(IMG_H, IMG_W, CV_8UC4);
 	cv::Mat ref_img_disp = cv::Mat::zeros(DISPLAY_IMG_H, DISPLAY_IMG_W, CV_8UC4);
 	//convert input image to the approriate format
-	cv::cvtColor(image, ref_img, CV_BGR2BGRA);
+	if (IMAGE_MODE == ImageMode::BGR)
+		cv::cvtColor(image, ref_img, CV_BGR2BGRA);
+	else if (IMAGE_MODE == ImageMode::Grayscale)
+		cv::cvtColor(image, ref_img, CV_GRAY2BGRA);
 	ref_img.copyTo(ref_img_disp);
 	//resample input image for displaying
 	cv::resize(ref_img_disp, ref_img_disp, cv::Size(DISPLAY_IMG_H, DISPLAY_IMG_W));

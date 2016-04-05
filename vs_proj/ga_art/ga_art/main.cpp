@@ -9,10 +9,23 @@
 #include "run_hill_climb.h"
 #include "hill_climb_time_meas.h"
 
+ImageMode IMAGE_MODE = ImageMode::Grayscale;
+
 int main() 
 {
-
-	cv::Mat image = cv::imread("test_samples\\example1.png", CV_LOAD_IMAGE_UNCHANGED);
+	
+	cv::Mat image = cv::imread("test_samples\\example2.png", CV_LOAD_IMAGE_UNCHANGED);
+	switch (image.channels()) 
+	{
+		default:
+		case 1:
+			IMAGE_MODE = ImageMode::Grayscale;
+			break;
+		case 3:
+			IMAGE_MODE = ImageMode::BGR;
+			break;
+	}
+	
 
 	if (!image.data)    // Check for invalid input
 	{

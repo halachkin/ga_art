@@ -6,6 +6,7 @@
 #include "Polygon.h"
 
 using namespace constants;
+extern ImageMode IMAGE_MODE;
 
 //Polygon class
 
@@ -115,8 +116,17 @@ int CartesianPolygon::mutate()
 	}
 	else if (mutation_type == 2)
 	{
-		int channel = rand.gen_int(0, 2);
-		this->set_color(channel, this->color()[channel] + rand.gen_int(-30, 30));
+		if (IMAGE_MODE == ImageMode::BGR)
+		{
+			int channel = rand.gen_int(0, 2);
+			this->set_color(channel, this->color()[channel] + rand.gen_int(-30, 30));
+		}
+		else if (IMAGE_MODE == ImageMode::Grayscale)
+		{
+			int color_mutation = rand.gen_int(-30, 30);
+			for (int i = 0; i < 3; i++)
+				this->set_color(i, this->color()[i] + color_mutation);
+		}
 	}
 	else
 	{
@@ -250,8 +260,17 @@ int PolarPolygon::mutate()
 	}
 	else if (mutation_type == 2)
 	{
-		int channel = rand.gen_int(0, 2);
-		this->set_color(channel, this->color()[channel] + rand.gen_int(-30, 30));
+		if (IMAGE_MODE == ImageMode::BGR)
+		{
+			int channel = rand.gen_int(0, 2);
+			this->set_color(channel, this->color()[channel] + rand.gen_int(-30, 30));
+		}
+		else if (IMAGE_MODE == ImageMode::Grayscale)
+		{
+			int color_mutation = rand.gen_int(-30, 30);
+			for (int i = 0; i < 3; i++)
+				this->set_color(i, this->color()[i] + color_mutation);
+		}
 	}
 	else
 	{
