@@ -12,7 +12,7 @@
 int main() 
 {
 
-	cv::Mat image = cv::imread("test_samples\\example5.png", CV_LOAD_IMAGE_UNCHANGED);
+	cv::Mat image = cv::imread("test_samples\\example2.png", CV_LOAD_IMAGE_UNCHANGED);
 
 	if (!image.data)    // Check for invalid input
 	{
