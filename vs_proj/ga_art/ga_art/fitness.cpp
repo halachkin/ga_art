@@ -2,6 +2,8 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include "constants.h"
 
+extern ImageMode IMAGE_MODE;
+
 double fitness::fitness(const cv::Mat &img1, const cv::Mat &img2, FitnessMode fitness_mode)
 {
 	switch (fitness_mode)
@@ -22,12 +24,27 @@ double fitness::fitness(const cv::Mat &img1, const cv::Mat &img2, FitnessMode fi
 //fitness::mean_square_err //rgb
 double fitness::mean_square_err(const cv::Mat &img1, const cv::Mat &img2)
 {
-	cv::Mat diff;
-	cv::absdiff(img1, img2, diff);
-	diff.convertTo(diff, CV_32F);
-	diff = diff.mul(diff);
-	cv::Scalar bgr = cv::mean(diff);
-	return (bgr[0] + bgr[1] + bgr[2]) / 3.0;
+	if (IMAGE_MODE == ImageMode::BGR)
+	{
+		cv::Mat diff;
+		cv::absdiff(img1, img2, diff);
+		diff.convertTo(diff, CV_32F);
+		diff = diff.mul(diff);
+		cv::Scalar bgr = cv::mean(diff);
+		return (bgr[0] + bgr[1] + bgr[2]) / 3.0;
+	}
+	else if (IMAGE_MODE == ImageMode::Grayscale) 
+	{
+		cv::Mat diff;
+		cv::vector<cv::Mat> channels1, channels2;
+		cv::split(img1, channels1);
+		cv::split(img2, channels2);
+		cv::absdiff(channels1[0], channels2[0], diff);
+		diff.convertTo(diff, CV_32F);
+		diff = diff.mul(diff);
+		cv::Scalar bgr = cv::mean(diff);
+		return bgr[0]; // :)
+	}
 }
 
 ////fitnes::psnr //rgb

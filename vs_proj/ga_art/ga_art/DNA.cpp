@@ -8,15 +8,26 @@
 
 
 using namespace constants;
+extern ImageMode IMAGE_MODE;
 
 
 cv::Scalar DNA::gen_random_color()
 {
 	Random rand;
 	cv::Scalar color;
-	color[0] = rand.gen_double(0, 255);
-	color[1] = rand.gen_double(0, 255);
-	color[2] = rand.gen_double(0, 255);
+	if (IMAGE_MODE == ImageMode::BGR)
+	{
+		color[0] = rand.gen_double(0, 255);
+		color[1] = rand.gen_double(0, 255);
+		color[2] = rand.gen_double(0, 255);
+	}
+	else if (IMAGE_MODE == ImageMode::Grayscale)
+	{
+		double random_color = rand.gen_double(0, 255);;
+		for (int i = 0; i < 3; i++)
+			color[i] = random_color;
+	}
+
 	color[3] = rand.gen_double(0.1, 1.0);
 	return color;
 }
