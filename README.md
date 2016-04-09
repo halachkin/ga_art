@@ -1,5 +1,5 @@
 # Genetic Art project
-![](https://bitbucket.org/honeyext/MPOV_projekt/raw/master/art/to/example5.png)
+![](https://bitbucket.org/honeyext/MPOV_projekt/raw/master/art/example5.png)
 
 ## Info
 Currently running hill climb algorithm with some modifications, 
