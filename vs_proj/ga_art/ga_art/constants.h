@@ -13,29 +13,40 @@ enum class ImageMode { Grayscale, BGR };
 namespace constants
 {
 	//general params
-	const bool LOGGING = true;
+	const bool LOGGING = false;
 	const std::size_t LOG_TO_CSV_EVERY_N_GEN = 10;
 	const std::size_t LOG_IMG_EVERY_N_GEN = 2000;
-	const std::size_t DISPLAY_IMG_W = 400;
-	const std::size_t DISPLAY_IMG_H = 400;
-	const std::size_t IMG_W = 40;
-	const std::size_t IMG_H = 40;
+	const std::size_t DISPLAY_IMG_W = 200;
+	const std::size_t DISPLAY_IMG_H = 200;
+	const std::size_t IMG_W = 120;
+	const std::size_t IMG_H = 120;
 	const uint8_t     N_VERTICES = 3;
-	const std::size_t N_GENERATIONS = 1000; 
+	const std::size_t N_GENERATIONS = 0; 
 	const FitnessMode FITNESS_MODE = FitnessMode::MSE;
 	const DnaMode DNA_MODE = DnaMode::Cartesian;
 
 	//params for generating polygons in polar cords
 	const double SCALE = 0.3; // [0; 1.0]
-	const double OFFSET = SCALE * 0.5 * std::min(IMG_H, IMG_W);
+	const double OFFSET =  SCALE * 0.5 * std::min(IMG_H, IMG_W);
 
 
 
 	//Hill climbing params
+
+	const std::size_t MAX_N_POLYGONS = 100;
 	const bool   ANNEALING_SIMULATION = true;
-	const double ANNEALING_SIMULATION_RATE = 0.0001;
+	const double ANNEALING_SIMULATION_RATE = 0.001;
 	const bool   REMOVING_POLYGON = true;
-	const double REMOVING_POLYGON_TOLERANCE = 0.1; // in %
+	const double REMOVING_POLYGON_TOLERANCE = 0.01; // in %
+	//Mutation probabilties, sum should be 1
+	const double ADD_PROB         = 10  / 100.0;
+	const double REMOVE_PROB      = 10  / 100.0;
+	const double MUTATE_POS		  = 10  / 100.0;
+	const double MUTATE_POINT     = 20  / 100.0;
+	const double MUTATE_COLOR     = 20  / 100.0;
+	const double MUTATE_ALPHA     = 20  / 100.0;
+	const double SWAP_PROB		  = 10  /  100.0;
+
 
 	//Classic genetic algorithm params
 	const std::size_t N_POLYGONS = 100;
