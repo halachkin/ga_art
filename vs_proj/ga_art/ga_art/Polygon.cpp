@@ -8,59 +8,55 @@
 using namespace constants;
 extern ImageMode IMAGE_MODE;
 
+
 //Polygon class
 
-GeneticPolygon::GeneticPolygon(uint8_t n_vertices, cv::Scalar& color) :
+CartesianPolygon::CartesianPolygon(uint8_t n_vertices, cv::Scalar& color) :
 	_n_vertices(n_vertices), _color(color) {}
 
-const uint8_t& GeneticPolygon::n_vertices() const
+const uint8_t& CartesianPolygon::n_vertices() const
 { 
 	return _n_vertices;
 }
 
-const cv::Scalar& GeneticPolygon::color() const
+const cv::Scalar& CartesianPolygon::color() const
 {
 	return _color;
 }
 
-const cv::Point * GeneticPolygon::get_raw_points() const
+const cv::Point * CartesianPolygon::get_raw_points() const
 {
 	return &_points[0];
 }
 
 
-const std::vector<cv::Point>& GeneticPolygon::points() const
+const std::vector<cv::Point>& CartesianPolygon::points() const
 {
 	return _points;
 }
 
 
-GeneticPolygon & GeneticPolygon::set_point(std::size_t point_idx, cv::Point point)
+CartesianPolygon & CartesianPolygon::set_point(std::size_t point_idx, cv::Point point)
 {
 	if (point_idx > _n_vertices)
 		point_idx = _n_vertices - 1;
-
-	point.x = point.x > IMG_W ? IMG_W : point.x;
-	point.y = point.y > IMG_H ? IMG_H : point.y;
-	point.x = point.x < 0 ? 0 : point.x;
-	point.y = point.y < 0 ? 0 : point.y;
+	check_boundaries(point.x, 0, static_cast<int>(IMG_W));
+	check_boundaries(point.y, 0, static_cast<int>(IMG_H));
 
 	this->_points[point_idx] = point;
 	return *this;
 }
 
-GeneticPolygon & GeneticPolygon::set_color(int channel, double value)
+CartesianPolygon & CartesianPolygon::set_color(int channel, double value)
 {
-	value = value > 255 ? 255 : value;
-	value = value < 0 ? 0 : value;
+	check_boundaries(value, 0.0, 255.0);
 	this->_color[channel] = value;
 	return *this;
 }
 
-GeneticPolygon & GeneticPolygon::set_alpha(double alpha)
+CartesianPolygon & CartesianPolygon::set_alpha(double alpha)
 {
-	alpha = alpha > 1.0 ? 1.0 : alpha;
-	alpha = alpha < 0.0 ? 0.0 : alpha;
+	check_boundaries(alpha, 0.1, 1.0);
 	this->_color[3] = alpha;
 	return *this;
 }
@@ -70,81 +66,96 @@ GeneticPolygon & GeneticPolygon::set_alpha(double alpha)
 CartesianPolygon::CartesianPolygon(
 	uint8_t n_vertices,
 	cv::Scalar& color,
-	std::vector<cv::Point>& points) : GeneticPolygon(n_vertices, color)
+	std::vector<cv::Point>& points):
+	_n_vertices(n_vertices), _color(color), _points(points)
+
 {
-	_points = points;
+	
 }
 
-GeneticPolygon & CartesianPolygon::crossover(GeneticPolygon & parent2)
+CartesianPolygon & CartesianPolygon::crossover(CartesianPolygon & parent2)
 {
 	//TODO
 	return *this;
 }
 
-int CartesianPolygon::mutate()
+void CartesianPolygon::mutate_point()
 {
-	Random rand;
-	int mutation_type = rand.gen_int(0, 3);
-	if (mutation_type == 0)
-	{
-		cv::Point point;
-		int k = 30;
-		std::size_t point_idx = rand.gen_int(0, this->n_vertices() - 1);
-		point.x = this->points()[point_idx].x;
-		point.y = this->points()[point_idx].y;
-		int dx = rand.gen_int(-k, k);
-		int dy = rand.gen_int(-k, k);
-		point.x += dx;
-		point.y += dy;
-		this->set_point(point_idx, point);
-	}
-	else if (mutation_type == 1)
-	{
-		cv::Point point;
-		int k = 10;
-		int dx = rand.gen_int(-k, k);
-		int dy = rand.gen_int(-k, k);
-		point.x = this->points()[0].x + dx;
-		point.y = this->points()[0].y + dy;
-		this->set_point(0, point);
-		point.x = this->points()[1].x + dx;
-		point.y = this->points()[1].y + dy;
-		this->set_point(1, point);
-		point.x = this->points()[2].x + dx;
-		point.y = this->points()[2].y + dy;
-		this->set_point(2, point);
-	}
-	else if (mutation_type == 2)
-	{
-		if (IMAGE_MODE == ImageMode::BGR)
-		{
-			int channel = rand.gen_int(0, 2);
-			this->set_color(channel, this->color()[channel] + rand.gen_int(-30, 30));
-		}
-		else if (IMAGE_MODE == ImageMode::Grayscale)
-		{
-			int color_mutation = rand.gen_int(-30, 30);
-			for (int i = 0; i < 3; i++)
-				this->set_color(i, this->color()[i] + color_mutation);
-		}
-	}
-	else
-	{
-		this->set_alpha(this->color()[3] + rand.gen_double(-0.1, 0.1));
-	}
-	return mutation_type;
-
-
+	cv::Point point;
+	int k = IMG_H / 5;
+	std::size_t point_idx = Random().gen_int(0, this->n_vertices() - 1);
+	point.x = this->points()[point_idx].x;
+	point.y = this->points()[point_idx].y;
+	int dx = Random().gen_int(-k, k);
+	int dy = Random().gen_int(-k, k);
+	point.x += dx;
+	point.y += dy;
+	this->set_point(point_idx, point);
 }
 
-//PolarPoygon 
+void CartesianPolygon::mutation_position()
+{
+	cv::Point point;
+	int k = IMG_H / 10;
+	int dx = Random().gen_int(-k, k);
+	int dy = Random().gen_int(-k, k);
+	point.x = this->points()[0].x + dx;
+	point.y = this->points()[0].y + dy;
+	this->set_point(0, point);
+	point.x = this->points()[1].x + dx;
+	point.y = this->points()[1].y + dy;
+	this->set_point(1, point);
+	point.x = this->points()[2].x + dx;
+	point.y = this->points()[2].y + dy;
+	this->set_point(2, point);
+}
+
+void CartesianPolygon::mutate_color()
+{
+	if (IMAGE_MODE == ImageMode::BGR)
+	{
+		int channel = Random().gen_int(0, 2);
+		this->set_color(channel, this->color()[channel] + Random().gen_int(-30, 30));
+	}
+	else if (IMAGE_MODE == ImageMode::Grayscale)
+	{
+		int color_mutation = Random().gen_int(-30, 30);
+		for (int i = 0; i < 3; i++)
+			this->set_color(i, this->color()[i] + color_mutation);
+	}
+}
+
+void CartesianPolygon::mutate_alpha()
+{
+	this->set_alpha(this->color()[3] + Random().gen_double(-0.1, 0.1));
+}
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// P O L A R  P O L Y G O N //////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+
+
+void PolarPolygon::update_cords()
+{
+	_points.clear();
+	for (uint8_t i = 0; i < _n_vertices; i++)
+	{
+		double x = this->_r[i] * std::cos(_angles[i]) + this->_offset_x;
+		double y = this->_r[i] * std::sin(_angles[i]) + this->_offset_y;
+		_points.push_back(cv::Point(static_cast<int>(x), static_cast<int>(y)));
+	}
+}
+
+
 PolarPolygon::PolarPolygon(uint8_t n_vertices,
 	cv::Scalar& color,
 	std::vector<double>& r,
 	std::vector<double>& angles,
 	double offset_x,
 	double offset_y) :
-	GeneticPolygon(n_vertices, color), _r(r), _angles(angles), _offset_x(offset_x),
+	CartesianPolygon(n_vertices, color), _r(r), _angles(angles), _offset_x(offset_x),
 	_offset_y(offset_y)
 {
 	//compute cartesian cords
@@ -178,109 +189,92 @@ const double& PolarPolygon::offset_y() const
 
 PolarPolygon & PolarPolygon::set_r(std::size_t point_idx,  double r)
 {
-	// TODO: insert return statement here
+	check_boundaries(r, 0.0, OFFSET);
 	this->_r[point_idx] = r;
-	_points.clear();
-	for (uint8_t i = 0; i < _n_vertices; i++)
-	{
-		double x = _r[i] * std::cos(_angles[i]) + _offset_x;
-		double y = _r[i] * std::sin(_angles[i]) + _offset_y;
-		_points.push_back(cv::Point(static_cast<int>(x), static_cast<int>(y)));
-	}
+
+	this->update_cords();
 	return *this;
 }
 
 PolarPolygon & PolarPolygon::set_angle(std::size_t point_idx, double angle)
 {
 	// TODO: insert return statement here
+	check_boundaries(angle, 0.0, static_cast<double>(2 * std::_Pi));
 	this->_angles[point_idx] = angle;
-	_points.clear();
-	for (uint8_t i = 0; i < _n_vertices; i++)
-	{
-		double x = _r[i] * std::cos(_angles[i]) + _offset_x;
-		double y = _r[i] * std::sin(_angles[i]) + _offset_y;
-		_points.push_back(cv::Point(static_cast<int>(x), static_cast<int>(y)));
-	}
+	this->update_cords();
 	return *this;
 }
 
 PolarPolygon & PolarPolygon::set_offset_x(double x)
 {
 	// TODO: insert return statement here
+	check_boundaries(x, OFFSET, IMG_W - OFFSET);
 	this->_offset_x = x;
-	_points.clear();
-	for (uint8_t i = 0; i < _n_vertices; i++)
-	{
-		double x = _r[i] * std::cos(_angles[i]) + _offset_x;
-		double y = _r[i] * std::sin(_angles[i]) + _offset_y;
-		_points.push_back(cv::Point(static_cast<int>(x), static_cast<int>(y)));
-	}
+	this->update_cords();
 	return *this;
 }
 
 PolarPolygon & PolarPolygon::set_offset_y(double y)
 {
-	// TODO: insert return statement here
+	check_boundaries(y, OFFSET, IMG_H - OFFSET);
 	this->_offset_y = y;
 	_points.clear();
-	for (uint8_t i = 0; i < _n_vertices; i++)
-	{
-		double x = _r[i] * std::cos(_angles[i]) + _offset_x;
-		double y = _r[i] * std::sin(_angles[i]) + _offset_y;
-		_points.push_back(cv::Point(static_cast<int>(x), static_cast<int>(y)));
-	}
-
+	this->update_cords();
 	return *this;
 }
 
 
-GeneticPolygon & PolarPolygon::crossover(GeneticPolygon & parent2)
+CartesianPolygon & PolarPolygon::crossover(CartesianPolygon & parent2)
 {
 	//TODO
 	return *this;
 }
 
-int PolarPolygon::mutate()
+void PolarPolygon::mutate_point()
 {
-	//TODO
-	Random rand;
-
-	int mutation_type = rand.gen_int(0, 3);
-	if (mutation_type == 0)
-	{
-		int idx = rand.gen_int(0, this->n_vertices() - 1);
-		double k = SCALE * 20;
-		this->set_r(idx, this->_r[idx] + Random().gen_double(-k, k));
-	}
-	else if (mutation_type == 1)
-	{
-		int idx = rand.gen_int(0, this->n_vertices() - 1);
-		double k = SCALE * 20;
-		this->set_angle(idx, this->_angles[idx] + Random().gen_double(-k, k));
-	}
-	else if (mutation_type == 2)
-	{
-		if (IMAGE_MODE == ImageMode::BGR)
-		{
-			int channel = rand.gen_int(0, 2);
-			this->set_color(channel, this->color()[channel] + rand.gen_int(-30, 30));
-		}
-		else if (IMAGE_MODE == ImageMode::Grayscale)
-		{
-			int color_mutation = rand.gen_int(-30, 30);
-			for (int i = 0; i < 3; i++)
-				this->set_color(i, this->color()[i] + color_mutation);
-		}
-	}
-	else
-	{
-		this->set_alpha(this->color()[3] + rand.gen_double(-0.1, 0.1));
-
-		this->set_offset_x(_offset_x + rand.gen_double(-10, 10));
-		this->set_offset_y(_offset_y + rand.gen_double(-10, 10));                    
-	}
-	return mutation_type;
-	return 0;
+	int idx = Random().gen_int(0, this->n_vertices() - 1);
+	double k = SCALE * 20;
+	this->set_r(idx, this->_r[idx] + Random().gen_double(-k, k));
+	this->set_angle(idx, this->_angles[idx] + Random().gen_double(-k, k));
 }
+
+void PolarPolygon::mutation_position()
+{
+	this->set_offset_x(_offset_x + Random().gen_double(-10, 10));
+	this->set_offset_y(_offset_y + Random().gen_double(-10, 10));
+}
+
+void PolarPolygon::mutate_color()
+{
+	if (IMAGE_MODE == ImageMode::BGR)
+	{
+		int channel = Random().gen_int(0, 2);
+		this->set_color(channel, this->color()[channel] + Random().gen_int(-30, 30));
+	}
+	else if (IMAGE_MODE == ImageMode::Grayscale)
+	{
+		int color_mutation = Random().gen_int(-30, 30);
+		for (int i = 0; i < 3; i++)
+			this->set_color(i, this->color()[i] + color_mutation);
+	}
+}
+
+void PolarPolygon::mutate_alpha()
+{
+	this->set_alpha(this->color()[3] + Random().gen_double(-0.1, 0.1));
+}
+
+
+
+
+
+
+
+
+
+		
+
+                  
+
 
 

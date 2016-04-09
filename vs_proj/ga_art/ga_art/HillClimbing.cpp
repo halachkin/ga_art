@@ -16,7 +16,7 @@ HillClimbing::HillClimbing(const cv::Mat & ref_img)
 void HillClimbing::next_generation()
 {
 	this->n_generation++;
-	DNA next_dna(this->_current_dna);
+	DNA next_dna  = this->_current_dna.deep_copy();
 	this->n_polygons = next_dna.n_polygons();
 	int mutation = next_dna.mutate();
 	double f1 = next_dna.fitness(_ref_img);
@@ -35,7 +35,7 @@ void HillClimbing::next_generation()
 		this->_current_dna = next_dna;
 		//log evolution info
 		this->n_selected++;
-		//log mutation info, 0 - add, 1 - remove
+		//log mutation info, 0 - add, 1 - remove, ...
 		this->mutation_selected[mutation]++;
 	}
 

@@ -102,7 +102,6 @@ void run_hill_climb(const cv::Mat & image)
 	//resample input image for the internal computing
 	cv::resize(ref_img, ref_img, cv::Size(IMG_W, IMG_H));
 	HillClimbing hill_climbing(ref_img);
-
 	for (int i = 0; (N_GENERATIONS ==0 || i < N_GENERATIONS); i++)
 	{
 		if (LOGGING && (i % LOG_TO_CSV_EVERY_N_GEN == 0))
@@ -115,12 +114,17 @@ void run_hill_climb(const cv::Mat & image)
 			logfile << hill_climbing.n_polygons << ";";
 			logfile << "\n";
 		}
-		if (i % 500 == 0)
+		if (i % 100 == 0)
 		{
 			std::cout << "fitness: " << hill_climbing.fitness() << " i:  ";
 			std::cout << i << " selected:  " << hill_climbing.n_selected;
 			std::cout << "  mutation: " << hill_climbing.mutation_selected[0];
 			std::cout << ", " << hill_climbing.mutation_selected[1];
+			std::cout << ", " << hill_climbing.mutation_selected[2];
+			std::cout << ", " << hill_climbing.mutation_selected[3];
+			std::cout << ", " << hill_climbing.mutation_selected[4];
+			std::cout << ", " << hill_climbing.mutation_selected[5];
+			std::cout << ", " << hill_climbing.mutation_selected[6];
 			std::cout << "  n poly: " << hill_climbing.n_polygons <<std::endl;
 
 			cv::Mat output;

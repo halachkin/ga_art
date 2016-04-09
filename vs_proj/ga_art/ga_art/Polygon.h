@@ -10,20 +10,36 @@
 
 #include "constants.h"
 
-//Abstract GeneticPolygon class
-class GeneticPolygon
+
+#define MIN_BOUNDARY_CHECK(VAL, MIN) ((VAL) > (MIN) ? VAL : MIN)
+#define MAX_BOUNDARY_CHECK(VAL, MAX) ((VAL) < (MAX) ? VAL : MAX)
+
+template<class T>
+void check_boundaries(T& val, const T& min,const T& max);
+
+//CartesianPolygon class
+class CartesianPolygon
 {
 protected:
 	//number of vertices
 	uint8_t _n_vertices;
-	//GeneticPolygon color BGRA
+	//CartesianPolygon color BGRA
 	cv::Scalar _color;
-	//GeneticPolygon vertices in Cartesian coordinates
+	//CartesianPolygon vertices in Cartesian coordinates
 	std::vector<cv::Point> _points;
 	
 public:
 	//ctor
-	GeneticPolygon(uint8_t n_vertices, cv::Scalar& color);
+	CartesianPolygon(uint8_t n_vertices, cv::Scalar& color);
+	CartesianPolygon(
+		uint8_t n_vertices,
+		cv::Scalar& color,
+		std::vector<cv::Point>& points);
+
+	//need for deep copy of DNAs
+	virtual CartesianPolygon* clone() const {
+		return new CartesianPolygon(*this);
+	}
 
 	//getters
 	const uint8_t& n_vertices() const;
@@ -32,32 +48,24 @@ public:
 	const cv::Point* get_raw_points() const;
 
 	//setters
-	GeneticPolygon& set_point(std::size_t point_idx, cv::Point point);
-	GeneticPolygon& set_color(int channel, double value);
-	GeneticPolygon& set_alpha(double alpha);
+	CartesianPolygon& set_point(std::size_t point_idx, cv::Point point);
+	CartesianPolygon& set_color(int channel, double value);
+	CartesianPolygon& set_alpha(double alpha);
 
 	//will crossover this with parent and save child into this	
-	virtual GeneticPolygon& crossover(GeneticPolygon& parent2) = 0;
-	virtual int mutate() = 0;
+	CartesianPolygon& crossover(CartesianPolygon& parent2);
+	virtual void mutate_point();
+	virtual void mutation_position();
+	virtual void mutate_color();
+	virtual void mutate_alpha();
+
+
 };
 
-
-//Polygon with vertices in Cartesian coordinates
-class CartesianPolygon : public GeneticPolygon
-{
-public:
-	CartesianPolygon(uint8_t n_vertices,
-					 cv::Scalar& color,
-					 std::vector<cv::Point>& points);
-
-	GeneticPolygon& crossover(GeneticPolygon& parent2);
-	int mutate();
-
-};
 
 
 //Polygon with vertices in Polar coordinates
-class PolarPolygon : public GeneticPolygon
+class PolarPolygon : public CartesianPolygon
 {
 private:
 	//polygon vertices in polar cords 
@@ -67,6 +75,7 @@ private:
 	double _offset_x;
 	double _offset_y;
 
+	void update_cords();
 public:
 
 	//ctor
@@ -76,6 +85,10 @@ public:
 					std::vector<double>& angles,
 					double offset_x,
 					double offset_y);
+
+	virtual PolarPolygon* clone() const {
+		return new PolarPolygon(*this);
+	}
 
 	//getters
 	const std::vector<double>& r() const;
@@ -89,10 +102,22 @@ public:
 	PolarPolygon& set_offset_y(double y);
 
 
-	GeneticPolygon& crossover(GeneticPolygon& parent2);
-	int mutate();
+	CartesianPolygon& crossover(CartesianPolygon& parent2);
+	virtual void mutate_point();
+	virtual void mutation_position();
+	virtual void mutate_color();
+	virtual void mutate_alpha();
 
 };
 
+template<class T>
+void check_boundaries(T & val, const T & min, const T & max)
+{
+	val = MIN_BOUNDARY_CHECK(val, min);
+	val = MAX_BOUNDARY_CHECK(val, max);
+}
+
 
 #endif
+
+

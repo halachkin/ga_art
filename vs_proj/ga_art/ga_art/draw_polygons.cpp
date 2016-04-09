@@ -3,7 +3,7 @@
 
 
 
-cv::Mat draw_polygons(const std::vector< std::shared_ptr<GeneticPolygon>>& polygons,
+cv::Mat draw_polygons(const std::vector< std::shared_ptr<CartesianPolygon>>& polygons,
 	                  cv::Mat &img,
 	                  double* scale)
 {
