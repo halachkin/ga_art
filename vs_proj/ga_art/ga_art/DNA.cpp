@@ -210,17 +210,17 @@ int DNA::mutate()
 			this->_polygons[Random().gen_int(0, n)]->mutate_point();
 			mutation_type = 3;
 		}
-		else if (roll < ADD_PROB + REMOVE_PROB + MUTATE_POS + MUTATE_COLOR)
+		else if (roll < ADD_PROB + REMOVE_PROB + MUTATE_POS + MUTATE_POINT + MUTATE_COLOR)
 		{
 			this->_polygons[Random().gen_int(0, n)]->mutate_color();
 			mutation_type = 4;
 		}
-		else if (roll < ADD_PROB + REMOVE_PROB + MUTATE_POS + MUTATE_COLOR + MUTATE_ALPHA)
+		else if (roll < ADD_PROB + REMOVE_PROB + MUTATE_POS + MUTATE_POINT + MUTATE_COLOR + MUTATE_ALPHA)
 		{
 			this->_polygons[Random().gen_int(0, n)]->mutate_alpha();
 			mutation_type = 5;
 		}
-		else if (roll < ADD_PROB + REMOVE_PROB + MUTATE_POS + MUTATE_COLOR + MUTATE_ALPHA + SWAP_PROB)
+		else if (roll < ADD_PROB + REMOVE_PROB + MUTATE_POS + MUTATE_POINT+  MUTATE_COLOR + MUTATE_ALPHA + SWAP_PROB)
 			//it seems like not very good mutation
 		{
 			int idx1 = Random().gen_int(0, n);
