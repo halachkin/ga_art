@@ -11,6 +11,34 @@ using namespace constants;
 extern ImageMode IMAGE_MODE;
 
 
+void polygons_to_svg(const std::vector< std::shared_ptr<CartesianPolygon>>& polygons,
+	std::string file)
+{
+	std::ofstream svgfile;
+	svgfile.open(file, std::ios::out | std::ios::trunc);
+	if (!svgfile.is_open())
+		return;
+	svgfile << "<svg>\n";
+	svgfile << "	<rect width=\"" << IMG_W << "\" height=\"" << IMG_H << "\" fill=\"rgb(0, 0, 0)\" />\n";
+	//example polygon
+	//svgfile << "	<polygon points=\"50, 5 100, 5 125, 30 125, 80 100, 105 50, 105 25, 80 25, 30\" fill=\"rgb(205,133,255)\" fill-opacity=\"0.4\"/>\n";
+	for (std::size_t i = 0; i < polygons.size(); i++)
+	{
+		svgfile << "	<polygon points=\"";
+		std::vector<cv::Point> points(polygons[i]->points());
+		for (int j = 0; j < polygons[i]->points().size(); j++)
+		{
+			svgfile << points[j].x << "," << points[j].y <<" ";
+		}
+		cv::Scalar color = polygons[i]->color();
+		svgfile << "\" fill=\"rgb(" << color[2] << "," << color[1] << "," << color[0];
+		svgfile << ")\" fill-opacity=\"" << color[3] << "\"/>\n";
+	}
+	svgfile << "</svg>";
+	svgfile.close();
+	return;
+}
+
 std::string get_time_date_as_str()
 {
 	time_t rawtime;
@@ -135,6 +163,9 @@ void run_hill_climb(const cv::Mat & image)
 			double scale = DISPLAY_IMG_H / double(IMG_H);
 			draw_polygons(hill_climbing.dna().polygons(), 
 				          generated_raster, &scale);
+			
+			polygons_to_svg(hill_climbing.dna().polygons(), log_dir + "\\" +
+				"svg_" + std::to_string(i) + ".svg");
 
 			cv::hconcat(ref_img_disp, generated_raster, output);
 			cv::imshow(window, output);

@@ -21,7 +21,7 @@ namespace constants
 	const std::size_t IMG_W = 120;
 	const std::size_t IMG_H = 120;
 	const uint8_t     N_VERTICES = 3;
-	const std::size_t N_GENERATIONS = 0; 
+	const std::size_t N_GENERATIONS = 10000; // 0 for inf
 	const FitnessMode FITNESS_MODE = FitnessMode::MSE;
 	const DnaMode DNA_MODE = DnaMode::Cartesian;
 
