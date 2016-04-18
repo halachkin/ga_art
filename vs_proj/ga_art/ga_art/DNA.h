@@ -16,13 +16,15 @@ private:
 	//Polygons representation: Polar/Cartesian:
 	DnaMode _dna_mode;
 	//using smart pointers to avoid problems with memory
-	std::vector< std::shared_ptr<GeneticPolygon>> _polygons;
+	std::vector< std::shared_ptr<CartesianPolygon>> _polygons;
 	//generated image
 	cv::Mat _raster;
 	double _fitness;
 	bool _fitness_computed;
 	
 public:
+	DNA deep_copy();
+
 	//will generate random color (BGRA)
 	static cv::Scalar gen_random_color();
 	
@@ -33,7 +35,7 @@ public:
 
 	//will generate polygon with n vertices in Polar coords 
 	//and random color
-	static std::shared_ptr<PolarPolygon>
+	static std::shared_ptr<CartesianPolygon>
 	gen_random_polar_polygon(uint8_t n_vertices);
 
 	//ctor
@@ -46,7 +48,7 @@ public:
 		DnaMode dna_mode = DnaMode::Cartesian);
 
 	//Will create the DNA from the polygons
-	DNA(const std::vector< std::shared_ptr<GeneticPolygon>>& polygons);
+	DNA(const std::vector< std::shared_ptr<CartesianPolygon>>& polygons);
 	
 
 	void add_random_polygon();
@@ -56,7 +58,7 @@ public:
 	//getters
 	std::size_t n_polygons() const;
 	const DnaMode& dna_mode() const;
-	const std::vector< std::shared_ptr<GeneticPolygon>>& polygons() const;
+	const std::vector< std::shared_ptr<CartesianPolygon>>& polygons() const;
 
 	
 

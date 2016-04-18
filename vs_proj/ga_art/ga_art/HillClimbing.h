@@ -18,7 +18,7 @@ public:
 
 	unsigned int n_generation;
 	unsigned int n_selected;
-	unsigned int mutation_selected[2] = { 0 };
+	unsigned int mutation_selected[7] = { 0 };
 	std::size_t n_polygons = 0;
 
 	

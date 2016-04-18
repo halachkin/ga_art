@@ -11,6 +11,34 @@ using namespace constants;
 extern ImageMode IMAGE_MODE;
 
 
+void polygons_to_svg(const std::vector< std::shared_ptr<CartesianPolygon>>& polygons,
+	std::string file)
+{
+	std::ofstream svgfile;
+	svgfile.open(file, std::ios::out | std::ios::trunc);
+	if (!svgfile.is_open())
+		return;
+	svgfile << "<svg>\n";
+	svgfile << "	<rect width=\"" << IMG_W << "\" height=\"" << IMG_H << "\" fill=\"rgb(0, 0, 0)\" />\n";
+	//example polygon
+	//svgfile << "	<polygon points=\"50, 5 100, 5 125, 30 125, 80 100, 105 50, 105 25, 80 25, 30\" fill=\"rgb(205,133,255)\" fill-opacity=\"0.4\"/>\n";
+	for (std::size_t i = 0; i < polygons.size(); i++)
+	{
+		svgfile << "	<polygon points=\"";
+		std::vector<cv::Point> points(polygons[i]->points());
+		for (int j = 0; j < polygons[i]->points().size(); j++)
+		{
+			svgfile << points[j].x << "," << points[j].y <<" ";
+		}
+		cv::Scalar color = polygons[i]->color();
+		svgfile << "\" fill=\"rgb(" << color[2] << "," << color[1] << "," << color[0];
+		svgfile << ")\" fill-opacity=\"" << color[3] << "\"/>\n";
+	}
+	svgfile << "</svg>";
+	svgfile.close();
+	return;
+}
+
 std::string get_time_date_as_str()
 {
 	time_t rawtime;
@@ -102,7 +130,6 @@ void run_hill_climb(const cv::Mat & image)
 	//resample input image for the internal computing
 	cv::resize(ref_img, ref_img, cv::Size(IMG_W, IMG_H));
 	HillClimbing hill_climbing(ref_img);
-
 	for (int i = 0; (N_GENERATIONS ==0 || i < N_GENERATIONS); i++)
 	{
 		if (LOGGING && (i % LOG_TO_CSV_EVERY_N_GEN == 0))
@@ -115,12 +142,17 @@ void run_hill_climb(const cv::Mat & image)
 			logfile << hill_climbing.n_polygons << ";";
 			logfile << "\n";
 		}
-		if (i % 500 == 0)
+		if (i % 100 == 0)
 		{
 			std::cout << "fitness: " << hill_climbing.fitness() << " i:  ";
 			std::cout << i << " selected:  " << hill_climbing.n_selected;
 			std::cout << "  mutation: " << hill_climbing.mutation_selected[0];
 			std::cout << ", " << hill_climbing.mutation_selected[1];
+			std::cout << ", " << hill_climbing.mutation_selected[2];
+			std::cout << ", " << hill_climbing.mutation_selected[3];
+			std::cout << ", " << hill_climbing.mutation_selected[4];
+			std::cout << ", " << hill_climbing.mutation_selected[5];
+			std::cout << ", " << hill_climbing.mutation_selected[6];
 			std::cout << "  n poly: " << hill_climbing.n_polygons <<std::endl;
 
 			cv::Mat output;
@@ -131,6 +163,9 @@ void run_hill_climb(const cv::Mat & image)
 			double scale = DISPLAY_IMG_H / double(IMG_H);
 			draw_polygons(hill_climbing.dna().polygons(), 
 				          generated_raster, &scale);
+			
+			polygons_to_svg(hill_climbing.dna().polygons(), log_dir + "\\" +
+				"svg_" + std::to_string(i) + ".svg");
 
 			cv::hconcat(ref_img_disp, generated_raster, output);
 			cv::imshow(window, output);
