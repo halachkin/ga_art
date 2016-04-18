@@ -22,7 +22,6 @@ double fitness::fitness(const cv::Mat &img1, const cv::Mat &img2, FitnessMode fi
 	}
 }
 
-//fitness::mean_square_err //rgb
 double fitness::mean_square_err(const cv::Mat &img1, const cv::Mat &img2)
 {
 	if (IMAGE_MODE == ImageMode::BGR)
@@ -48,19 +47,29 @@ double fitness::mean_square_err(const cv::Mat &img1, const cv::Mat &img2)
 	}
 }
 
-////fitness::psnr //rgb
 double fitness::psnr(const cv::Mat &img1, const cv::Mat &img2)
 {
 	return 10.0*log10((255 * 255) / (fitness::mean_square_err(img1, img2)));
 }
 
-//fitness::ssim //rgb
 double fitness::ssim(const cv::Mat &img1, const cv::Mat &img2)
 {
 	const double C1 = 6.5025, C2 = 58.5225;
 	cv::Mat I1, I2;
-	img1.convertTo(I1, CV_32F);
-	img2.convertTo(I2, CV_32F);
+
+	if (IMAGE_MODE == ImageMode::BGR)
+	{
+		img1.convertTo(I1, CV_32F);
+		img2.convertTo(I2, CV_32F);
+	}
+	else if (IMAGE_MODE == ImageMode::Grayscale)
+	{
+		cv::vector<cv::Mat> channels1, channels2;
+		cv::split(img1, channels1);
+		cv::split(img2, channels2);
+		channels1[0].convertTo(I1, CV_32F);
+		channels2[0].convertTo(I2, CV_32F);
+	}
 	cv::Mat I2_2 = I2.mul(I2);
 	cv::Mat I1_2 = I1.mul(I1);
 	cv::Mat I1_I2 = I1.mul(I2);
@@ -89,5 +98,13 @@ double fitness::ssim(const cv::Mat &img1, const cv::Mat &img2)
 	cv::Mat ssim_map;
 	divide(t3, t1, ssim_map);
 	cv::Scalar bgr = mean(ssim_map); //range -1 to 1 (1 meaning same imgs)
-	return 2.0 - (1.0 + ((bgr[0] + bgr[1] + bgr[2]) / 3.0)); //range 2 to 0
+
+	if (IMAGE_MODE == ImageMode::BGR)
+	{
+		return 2.0 - (1.0 + ((bgr[0] + bgr[1] + bgr[2]) / 3.0)); //range 2 to 0
+	}
+	else if (IMAGE_MODE == ImageMode::Grayscale)
+	{
+		return 2.0 - (1.0 + bgr[0]); //range 2 to 0
+	}
 }
