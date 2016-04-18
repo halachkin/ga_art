@@ -2,6 +2,7 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include "constants.h"
 
+using namespace constants;
 extern ImageMode IMAGE_MODE;
 
 double fitness::fitness(const cv::Mat &img1, const cv::Mat &img2, FitnessMode fitness_mode)
@@ -47,7 +48,7 @@ double fitness::mean_square_err(const cv::Mat &img1, const cv::Mat &img2)
 	}
 }
 
-////fitnes::psnr //rgb
+////fitness::psnr //rgb
 double fitness::psnr(const cv::Mat &img1, const cv::Mat &img2)
 {
 	return 10.0*log10((255 * 255) / (fitness::mean_square_err(img1, img2)));
@@ -65,17 +66,17 @@ double fitness::ssim(const cv::Mat &img1, const cv::Mat &img2)
 	cv::Mat I1_I2 = I1.mul(I2);
 
 	cv::Mat mu1, mu2;
-	GaussianBlur(I1, mu1, cv::Size(11, 11), 1.5);
-	GaussianBlur(I2, mu2, cv::Size(11, 11), 1.5);
+	GaussianBlur(I1, mu1, cv::Size(11, 11), GAUSSIAN_SIGMA_X);
+	GaussianBlur(I2, mu2, cv::Size(11, 11), GAUSSIAN_SIGMA_X);
 	cv::Mat mu1_2 = mu1.mul(mu1);
 	cv::Mat mu2_2 = mu2.mul(mu2);
 	cv::Mat mu1_mu2 = mu1.mul(mu2);
 	cv::Mat sigma1_2, sigma2_2, sigma12;
-	GaussianBlur(I1_2, sigma1_2, cv::Size(11, 11), 1.5);
+	GaussianBlur(I1_2, sigma1_2, cv::Size(11, 11), GAUSSIAN_SIGMA_X);
 	sigma1_2 -= mu1_2;
-	GaussianBlur(I2_2, sigma2_2, cv::Size(11, 11), 1.5);
+	GaussianBlur(I2_2, sigma2_2, cv::Size(11, 11), GAUSSIAN_SIGMA_X);
 	sigma2_2 -= mu2_2;
-	GaussianBlur(I1_I2, sigma12, cv::Size(11, 11), 1.5);
+	GaussianBlur(I1_I2, sigma12, cv::Size(11, 11), GAUSSIAN_SIGMA_X);
 	sigma12 -= mu1_mu2;
 
 	cv::Mat t1, t2, t3;

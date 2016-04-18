@@ -23,13 +23,14 @@ namespace constants
 	const uint8_t     N_VERTICES = 3;
 	const std::size_t N_GENERATIONS = 10000; // 0 for inf
 	const FitnessMode FITNESS_MODE = FitnessMode::MSE;
-	const DnaMode DNA_MODE = DnaMode::Cartesian;
+	const DnaMode DNA_MODE = DnaMode::Polar;
 
 	//params for generating polygons in polar cords
 	const double SCALE = 0.3; // [0; 1.0]
 	const double OFFSET =  SCALE * 0.5 * std::min(IMG_H, IMG_W);
 
-
+	//Fitness SSIM - GaussianBlur parameter
+	const double GAUSSIAN_SIGMA_X = 1.5; //used 1.5
 
 	//Hill climbing params
 
