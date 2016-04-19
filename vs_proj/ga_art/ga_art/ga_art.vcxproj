@@ -114,29 +114,30 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Configs.cpp" />
     <ClCompile Include="DNA.cpp" />
     <ClCompile Include="draw_polygons.cpp" />
-    <ClCompile Include="Evolution.cpp" />
     <ClCompile Include="fitness.cpp" />
     <ClCompile Include="HillClimbing.cpp" />
     <ClCompile Include="hill_climb_time_meas.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Polygon.cpp" />
-    <ClCompile Include="Population.cpp" />
     <ClCompile Include="run_hill_climb.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="constants.h" />
+    <ClInclude Include="Configs.h" />
     <ClInclude Include="DNA.h" />
     <ClInclude Include="draw_polygons.h" />
-    <ClInclude Include="Evolution.h" />
     <ClInclude Include="fitness.h" />
     <ClInclude Include="HillClimbing.h" />
     <ClInclude Include="hill_climb_time_meas.h" />
-    <ClInclude Include="Population.h" />
+    <ClInclude Include="json.hpp" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="Polygon.h" />
     <ClInclude Include="run_hill_climb.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="configs\config.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
