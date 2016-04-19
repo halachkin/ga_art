@@ -4,7 +4,7 @@
 #include <vector>
 #include <opencv2/core/core.hpp>
 #include "DNA.h"
-#include "constants.h"
+#include "Configs.h"
 
 class HillClimbing
 {

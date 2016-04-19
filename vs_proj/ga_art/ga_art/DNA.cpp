@@ -1,13 +1,13 @@
 #include "DNA.h"
 
 
-#include "constants.h"
+#include "Configs.h"
 #include "Random.h"
 #include "draw_polygons.h"
 #include "fitness.h"
 
 
-using namespace constants;
+using namespace Configs;
 extern ImageMode IMAGE_MODE;
 
 
@@ -120,9 +120,9 @@ DNA::DNA(const std::vector< std::shared_ptr<CartesianPolygon>>& polygons) :
 void DNA::add_random_polygon()
 {
 	if (this->_dna_mode == DnaMode::Cartesian)
-		_polygons.push_back(gen_random_cartesian_polygon(constants::N_VERTICES));
+		_polygons.push_back(gen_random_cartesian_polygon(Configs::N_VERTICES));
 	else if (this->_dna_mode == DnaMode::Polar)
-		_polygons.push_back(gen_random_polar_polygon(constants::N_VERTICES));
+		_polygons.push_back(gen_random_polar_polygon(Configs::N_VERTICES));
 }
 
 void DNA::remove_random_polygon()
@@ -162,8 +162,8 @@ const cv::Mat & DNA::raster()
 {
 	if (_raster.empty())
 	{
-		_raster = cv::Mat::zeros(constants::IMG_H,
-			                     constants::IMG_W, CV_8UC4);
+		_raster = cv::Mat::zeros(Configs::IMG_H,
+			                     Configs::IMG_W, CV_8UC4);
 		draw_polygons(this->_polygons, this->_raster);
 	}
 	return _raster;

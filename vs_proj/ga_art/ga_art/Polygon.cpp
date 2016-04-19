@@ -2,10 +2,10 @@
 #include <stdexcept>
 
 #include "Random.h"
-#include "constants.h"
+#include "Configs.h"
 #include "Polygon.h"
 
-using namespace constants;
+using namespace Configs;
 extern ImageMode IMAGE_MODE;
 
 

@@ -9,7 +9,7 @@
 #include <opencv2/highgui/highgui.hpp>
 
 
-#include "constants.h"
+#include "Configs.h"
 #include "DNA.h"
 #include "HillClimbing.h"
 

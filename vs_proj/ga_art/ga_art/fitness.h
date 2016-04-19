@@ -3,7 +3,7 @@
 
 
 #include <opencv2/core/core.hpp>
-#include "constants.h"
+#include "Configs.h"
 
 namespace fitness
 {

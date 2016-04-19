@@ -7,7 +7,7 @@
 #include "draw_polygons.h"
 
 
-using namespace constants;
+using namespace Configs;
 extern ImageMode IMAGE_MODE;
 
 

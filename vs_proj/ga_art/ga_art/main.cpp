@@ -13,8 +13,8 @@ ImageMode IMAGE_MODE = ImageMode::Grayscale;
 
 int main() 
 {
-	
-	cv::Mat image = cv::imread("test_samples\\example1.png", CV_LOAD_IMAGE_UNCHANGED);
+	Configs::load_configs("configs\\config.json");
+	cv::Mat image = cv::imread("test_samples\\chess.png", CV_LOAD_IMAGE_UNCHANGED);
 	switch (image.channels()) 
 	{
 		default:
