@@ -1,8 +1,8 @@
 #include "HillClimbing.h"
-#include "constants.h"
+#include "Configs.h"
 #include "Random.h"
 
-using namespace constants;
+using namespace Configs;
 
 HillClimbing::HillClimbing(const cv::Mat & ref_img)
 	:

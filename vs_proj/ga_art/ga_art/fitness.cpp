@@ -1,8 +1,8 @@
 #include "fitness.h"
 #include <opencv2/imgproc/imgproc.hpp>
-#include "constants.h"
+#include "Configs.h"
 
-using namespace constants;
+using namespace Configs;
 extern ImageMode IMAGE_MODE;
 
 double fitness::fitness(const cv::Mat &img1, const cv::Mat &img2, FitnessMode fitness_mode)

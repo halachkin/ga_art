@@ -10,13 +10,13 @@ void hill_climb_time_meas()
 		return;
 	}
 
-	cv::Mat ref_img = cv::Mat::zeros(constants::IMG_H,
-		constants::IMG_W, CV_8UC4);
+	cv::Mat ref_img = cv::Mat::zeros(Configs::IMG_H,
+		Configs::IMG_W, CV_8UC4);
 
 	cv::cvtColor(image, ref_img, CV_BGR2BGRA);
 	cv::Size dsize;
-	dsize.width = constants::IMG_W;
-	dsize.height = constants::IMG_H;
+	dsize.width = Configs::IMG_W;
+	dsize.height = Configs::IMG_H;
 	cv::resize(ref_img, ref_img, dsize);
 
 	clock_t begin = clock();
