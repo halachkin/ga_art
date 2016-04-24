@@ -11,10 +11,12 @@
 
 ImageMode IMAGE_MODE = ImageMode::Grayscale;
 
-int main() 
+int main(int argc, char *argv[])
 {
-	Configs::load_configs("configs\\config.json");
-	cv::Mat image = cv::imread("test_samples\\chess.png", CV_LOAD_IMAGE_UNCHANGED);
+	if (argc != 3)
+		return -1;
+	Configs::load_configs(argv[1]);
+	cv::Mat image = cv::imread(argv[2], CV_LOAD_IMAGE_UNCHANGED);
 	switch (image.channels()) 
 	{
 		default:
@@ -25,7 +27,6 @@ int main()
 			IMAGE_MODE = ImageMode::BGR;
 			break;
 	}
-	
 
 	if (!image.data)    // Check for invalid input
 	{
@@ -34,8 +35,8 @@ int main()
 	}
 
 	run_hill_climb(image);
-
 	//hill_climb_time_meas();
+
 	return 0;
 }
 

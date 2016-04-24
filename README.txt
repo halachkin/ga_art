@@ -1,4 +1,7 @@
 Genetic Art project
+
+\bin\ga_art.exe IMAGE_PATH CONFIG_PATH
+
 Info
     Currently running hill climb algorithm with some modifications
     logs are here (about 600 Mb too many images) 
