@@ -9,6 +9,7 @@ namespace Configs
 	std::size_t LOG_IMG_EVERY_N_GEN;
 	std::size_t DISPLAY_IMG_W;
 	std::size_t DISPLAY_IMG_H;
+	std::size_t DISPLAY_EVERY_N_GEN;
 	std::size_t IMG_W;
 	std::size_t IMG_H;
 	uint8_t     N_VERTICES;
@@ -52,6 +53,7 @@ void Configs::load_configs(std::string config_path)
 
 	DISPLAY_IMG_W = (std::size_t)configs["DISPLAY"]["DISPLAY_IMG_W"];
 	DISPLAY_IMG_H = (std::size_t)configs["DISPLAY"]["DISPLAY_IMG_H"];
+	DISPLAY_EVERY_N_GEN = (std::size_t)configs["DISPLAY"]["DISPLAY_EVERY_N_GEN"];
 
 	IMG_W = (std::size_t)configs["INTERNAL_RESOLUTION"]["IMG_W"];
 	IMG_H = (std::size_t)configs["INTERNAL_RESOLUTION"]["IMG_H"];

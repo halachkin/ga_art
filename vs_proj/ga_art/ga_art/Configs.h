@@ -29,6 +29,7 @@ namespace Configs
 	extern std::size_t LOG_IMG_EVERY_N_GEN;
 	extern std::size_t DISPLAY_IMG_W;
 	extern std::size_t DISPLAY_IMG_H;
+	extern std::size_t DISPLAY_EVERY_N_GEN;
 	extern std::size_t IMG_W;
 	extern std::size_t IMG_H;
 	extern uint8_t     N_VERTICES;
