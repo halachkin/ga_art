@@ -77,5 +77,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="configs\config.json" />
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>
