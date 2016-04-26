@@ -21,23 +21,30 @@ cv::Mat draw_polygons(const std::vector< std::shared_ptr<CartesianPolygon>>& pol
 		//	1,
 		//	polygons[i]->color(),
 		//	0);
-		const cv::Point* pointsptr = polygons[i]->get_raw_points();
 		if (scale != nullptr)
 		{
-			//copy scale points
+			//copy points to scale
 			std::vector<cv::Point> points(polygons[i]->points());
 			for (int j = 0; j < polygons[i]->points().size(); j++)
 			{
 				points[j].x =  static_cast<int> (points[j].x* (*scale));
 				points[j].y =  static_cast<int> (points[j].y* (*scale));
 			}
-			pointsptr = &points[0];
+			fillConvexPoly(imgt,
+				&points[0],
+				static_cast<int>(polygons[i]->points().size()),
+				polygons[i]->color(),
+				0);
 		}
-		fillConvexPoly(imgt,
-			pointsptr,
-			static_cast<int>(polygons[i]->points().size()),
-			polygons[i]->color(),
-			0);
+		else
+		{
+			fillConvexPoly(imgt,
+				polygons[i]->get_raw_points(),
+				static_cast<int>(polygons[i]->points().size()),
+				polygons[i]->color(),
+				0);
+		}
+
 		addWeighted(imgt,
 			polygons[i]->color()[3], //alpha
 			img,

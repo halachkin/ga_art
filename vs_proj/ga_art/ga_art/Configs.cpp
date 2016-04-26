@@ -7,11 +7,11 @@ namespace Configs
 	bool LOGGING;
 	std::size_t LOG_TO_CSV_EVERY_N_GEN;
 	std::size_t LOG_IMG_EVERY_N_GEN;
-	std::size_t DISPLAY_IMG_W;
-	std::size_t DISPLAY_IMG_H;
+	int DISPLAY_IMG_W;
+	int DISPLAY_IMG_H;
 	std::size_t DISPLAY_EVERY_N_GEN;
-	std::size_t IMG_W;
-	std::size_t IMG_H;
+	int IMG_W;
+	int IMG_H;
 	uint8_t     N_VERTICES;
 	std::size_t N_GENERATIONS;
 	FitnessMode FITNESS_MODE;
@@ -51,12 +51,12 @@ void Configs::load_configs(std::string config_path)
 	LOG_TO_CSV_EVERY_N_GEN = (std::size_t)configs["LOGGING_P"]["LOG_TO_CSV_EVERY_N_GEN"];
 	LOG_IMG_EVERY_N_GEN = (std::size_t)configs["LOGGING_P"]["LOG_IMG_EVERY_N_GEN"];
 
-	DISPLAY_IMG_W = (std::size_t)configs["DISPLAY"]["DISPLAY_IMG_W"];
-	DISPLAY_IMG_H = (std::size_t)configs["DISPLAY"]["DISPLAY_IMG_H"];
+	DISPLAY_IMG_W = (int)configs["DISPLAY"]["DISPLAY_IMG_W"];
+	DISPLAY_IMG_H = (int)configs["DISPLAY"]["DISPLAY_IMG_H"];
 	DISPLAY_EVERY_N_GEN = (std::size_t)configs["DISPLAY"]["DISPLAY_EVERY_N_GEN"];
 
-	IMG_W = (std::size_t)configs["INTERNAL_RESOLUTION"]["IMG_W"];
-	IMG_H = (std::size_t)configs["INTERNAL_RESOLUTION"]["IMG_H"];
+	IMG_W = (int)configs["INTERNAL_RESOLUTION"]["IMG_W"];
+	IMG_H = (int)configs["INTERNAL_RESOLUTION"]["IMG_H"];
 
 
 	if (configs["POLYGON"]["DNA_MODE"] == "Cartesian")
