@@ -66,7 +66,7 @@ void Configs::load_configs(std::string config_path)
 
 	N_VERTICES = (uint8_t)configs["POLYGON"]["N_VERTICES"];
 	SCALE = (double)configs["POLYGON"]["SCALE"];
-	OFFSET = SCALE * 0.5 * std::min(IMG_H, IMG_W);
+	OFFSET = SCALE * 0.5 * std::min(IMG_H, IMG_W) ;
 
 	if (configs["METRIC"]["FITNESS_MODE"] == "MSE")
 		FITNESS_MODE = FitnessMode::MSE;

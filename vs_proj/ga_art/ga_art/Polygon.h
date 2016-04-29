@@ -36,6 +36,7 @@ public:
 		cv::Scalar& color,
 		std::vector<cv::Point>& points);
 
+	virtual ~CartesianPolygon() {}
 	//need for deep copy of DNAs
 	virtual CartesianPolygon* clone() const {
 		return new CartesianPolygon(*this);

@@ -7,18 +7,18 @@
     "EVOLUTION": {
         "ANNEALING_SIMULATION": true,
         "ANNEALING_SIMULATION_RATE": 0.001,
-        "MAX_N_POLYGONS": 32,
-        "N_GENERATIONS": 1000000,
+        "MAX_N_POLYGONS": 1000,
+        "N_GENERATIONS": 0,
         "REMOVING_POLYGON": true,
-        "REMOVING_POLYGON_TOLERANCE": 0.1
+        "REMOVING_POLYGON_TOLERANCE": 0.005
     },
     "INTERNAL_RESOLUTION": {
         "IMG_H": 50,
         "IMG_W": 50
     },
     "LOGGING_P": {
-        "LOGGING": true,
-        "LOG_IMG_EVERY_N_GEN": 10000,
+        "LOGGING": false,
+        "LOG_IMG_EVERY_N_GEN": 3000,
         "LOG_TO_CSV_EVERY_N_GEN": 1000
     },
     "METRIC": {
@@ -26,17 +26,17 @@
         "GAUSSIAN_SIGMA_X": 1.5
     },
     "MUTATIONS_PROBS": {
-        "ADD": 0.143,
-        "MUTATE_ALPHA": 0.143,
-        "MUTATE_COLOR": 0.143,
-        "MUTATE_POINT": 0.143,
-        "MUTATE_POS": 0.143,
-        "REMOVE": 0.143,
-        "SWAP": 0.143
+        "ADD": 1,
+        "MUTATE_ALPHA": 0.147,
+        "MUTATE_COLOR": 0.147,
+        "MUTATE_POINT": 0.147,
+        "MUTATE_POS":0.147,
+        "REMOVE": 0.147,
+        "SWAP": 0.147
     },
     "POLYGON": {
         "DNA_MODE": "Polar",
-        "N_VERTICES": 4,
-        "SCALE": 0.2
+        "N_VERTICES": 3,
+        "SCALE": 0.9
     }
 }
