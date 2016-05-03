@@ -119,7 +119,6 @@
     <ClCompile Include="draw_polygons.cpp" />
     <ClCompile Include="fitness.cpp" />
     <ClCompile Include="HillClimbing.cpp" />
-    <ClCompile Include="hill_climb_time_meas.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Polygon.cpp" />
     <ClCompile Include="run_hill_climb.cpp" />

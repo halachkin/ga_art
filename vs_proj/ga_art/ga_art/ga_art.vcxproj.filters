@@ -36,9 +36,6 @@
     <ClCompile Include="HillClimbing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="hill_climb_time_meas.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Configs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

@@ -7,7 +7,7 @@
 
 
 #include "run_hill_climb.h"
-#include "hill_climb_time_meas.h"
+
 
 ImageMode IMAGE_MODE = ImageMode::Grayscale;
 

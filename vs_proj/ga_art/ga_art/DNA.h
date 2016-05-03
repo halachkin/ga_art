@@ -50,7 +50,6 @@ public:
 	//Will create the DNA from the polygons
 	DNA(const std::vector< std::shared_ptr<CartesianPolygon>>& polygons);
 	
-
 	void add_random_polygon();
 	void remove_random_polygon();
 
@@ -60,7 +59,6 @@ public:
 	const DnaMode& dna_mode() const;
 	const std::vector< std::shared_ptr<CartesianPolygon>>& polygons() const;
 
-	
 
 	//will compute fitness and return it
 	//computing fitness only first time! 
@@ -72,12 +70,7 @@ public:
 	//Will generate raster image of specific size
 	//const cv::Mat & raster(cv::Size dsize);
 
-	//TODO
-	//Will crossover two DNAs and return offspring
-	//Offspring should have the same number of polygons with same
-	//number of vertices as parents
-	static DNA crossover(const DNA& parent1, const DNA& parent2);
-	//TODO
+
 	int mutate();
 
 };
