@@ -1,9 +1,14 @@
 # Genetic Art project
-![](https://bitbucket.org/honeyext/mpov_projekt/raw/master/art/example5.png)
+
+
+Just another [EvoLisa](https://rogeralsing.com/2008/12/16/evolisa-optimizations-and-improved-quality/) clone 
+
+Authors: Aliaksei Halachnkin, Denis Fedor
+
 
 ## Info
-Currently running hill climb algorithm with some modifications, 
-logs are [here](https://www.dropbox.com/sh/nm8l5a28uwugsck/AAAP_7tMrSX_VQ9WJUZ_8ZsUa?dl=0)
+Currently running hill climbing algorithm with some modifications, 
+logs are [here](https://www.dropbox.com/sh/l9wz9c40l0ojlkb/AAAH5JHAYtKVX-7JrNMoQAc2a?dl=0)
 
 [**OUR OPENCV BUILD (Visual Studio 2015 - 64 bit)**]( https://www.dropbox.com/sh/g2ldbzlngww10jd/AABAwlcqHEtOkLhhlQhJQ39Ka?dl=0)
 
