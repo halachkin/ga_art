@@ -30,11 +30,11 @@ protected:
 	
 public:
 	//ctor
-	CartesianPolygon(uint8_t n_vertices, cv::Scalar& color);
+	CartesianPolygon(uint8_t n_vertices, cv::Scalar const& color);
 	CartesianPolygon(
 		uint8_t n_vertices,
-		cv::Scalar& color,
-		std::vector<cv::Point>& points);
+		cv::Scalar const& color,
+		std::vector<cv::Point> const& points);
 
 	virtual ~CartesianPolygon() {}
 	//need for deep copy of DNAs
@@ -81,9 +81,9 @@ public:
 
 	//ctor
 	PolarPolygon(   uint8_t n_vertices,
-					cv::Scalar& color,
-					std::vector<double>& r,
-					std::vector<double>& angles,
+					cv::Scalar const& color,
+					std::vector<double> const& r,
+					std::vector<double> const& angles,
 					double offset_x,
 					double offset_y);
 

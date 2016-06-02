@@ -15,6 +15,7 @@ int main(int argc, char *argv[])
 {
 	if (argc != 3)
 		return -1;
+
 	Configs::load_configs(argv[1]);
 	cv::Mat image = cv::imread(argv[2], CV_LOAD_IMAGE_UNCHANGED);
 	switch (image.channels()) 

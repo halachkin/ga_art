@@ -1,5 +1,6 @@
 
 #include <stdexcept>
+#include <math.h>
 
 #include "Random.h"
 #include "Configs.h"
@@ -11,8 +12,14 @@ extern ImageMode IMAGE_MODE;
 
 //Polygon class
 
-CartesianPolygon::CartesianPolygon(uint8_t n_vertices, cv::Scalar& color) :
+CartesianPolygon::CartesianPolygon(uint8_t n_vertices, cv::Scalar const& color) :
 	_n_vertices(n_vertices), _color(color) {}
+
+CartesianPolygon::CartesianPolygon(
+		uint8_t n_vertices,
+		cv::Scalar const& color,
+		std::vector<cv::Point> const& points):
+	_n_vertices(n_vertices), _color(color), _points(points) {}
 
 const uint8_t& CartesianPolygon::n_vertices() const
 { 
@@ -62,16 +69,6 @@ CartesianPolygon & CartesianPolygon::set_alpha(double alpha)
 }
 
 
-//CartesianPolygon class
-CartesianPolygon::CartesianPolygon(
-	uint8_t n_vertices,
-	cv::Scalar& color,
-	std::vector<cv::Point>& points):
-	_n_vertices(n_vertices), _color(color), _points(points)
-
-{
-	
-}
 
 CartesianPolygon & CartesianPolygon::crossover(CartesianPolygon & parent2)
 {
@@ -136,23 +133,10 @@ void CartesianPolygon::mutate_alpha()
 ///////////////////////// P O L A R  P O L Y G O N //////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-
-void PolarPolygon::update_cords()
-{
-	_points.clear();
-	for (uint8_t i = 0; i < _n_vertices; i++)
-	{
-		double x = this->_r[i] * std::cos(_angles[i]) + this->_offset_x;
-		double y = this->_r[i] * std::sin(_angles[i]) + this->_offset_y;
-		_points.push_back(cv::Point(static_cast<int>(x), static_cast<int>(y)));
-	}
-}
-
-
 PolarPolygon::PolarPolygon(uint8_t n_vertices,
-	cv::Scalar& color,
-	std::vector<double>& r,
-	std::vector<double>& angles,
+	cv::Scalar const& color,
+	std::vector<double> const& r,
+	std::vector<double> const& angles,
 	double offset_x,
 	double offset_y) :
 	CartesianPolygon(n_vertices, color), _r(r), _angles(angles), _offset_x(offset_x),
@@ -166,6 +150,19 @@ PolarPolygon::PolarPolygon(uint8_t n_vertices,
 		_points.push_back(cv::Point(static_cast<int>(x), static_cast<int>(y)));
 	}
 }
+
+
+void PolarPolygon::update_cords()
+{
+	_points.clear();
+	for (uint8_t i = 0; i < _n_vertices; i++)
+	{
+		double x = this->_r[i] * std::cos(_angles[i]) + this->_offset_x;
+		double y = this->_r[i] * std::sin(_angles[i]) + this->_offset_y;
+		_points.push_back(cv::Point(static_cast<int>(x), static_cast<int>(y)));
+	}
+}
+
 
 const std::vector<double>& PolarPolygon::r() const
 { 
@@ -199,7 +196,7 @@ PolarPolygon & PolarPolygon::set_r(std::size_t point_idx,  double r)
 PolarPolygon & PolarPolygon::set_angle(std::size_t point_idx, double angle)
 {
 	// TODO: insert return statement here
-	check_boundaries(angle, 0.0, static_cast<double>(2 * std::_Pi));
+	check_boundaries(angle, 0.0, static_cast<double>(2 * M_PI));
 	this->_angles[point_idx] = angle;
 	this->update_cords();
 	return *this;

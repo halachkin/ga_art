@@ -2,7 +2,9 @@
 #include <ctime>
 #include <iostream>
 #include <fstream>
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
 #include <windows.h>
+#endif
 #include "run_hill_climb.h"
 #include "draw_polygons.h"
 
@@ -113,7 +115,9 @@ void run_hill_climb(const cv::Mat & image)
 	std::ofstream config_file;
 	if (LOGGING)
 	{
+		#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
 		CreateDirectory(log_dir.c_str(), NULL);
+		#endif
 		logfile.open(logname, std::ios::out | std::ios::trunc);
 		if (!logfile.is_open())
 			return;
@@ -135,7 +139,8 @@ void run_hill_climb(const cv::Mat & image)
 	
 	char window[] = "Genetic Art";
 	cv::namedWindow(window);
-	cv::moveWindow(window, 10, 500);
+	// cv::moveWindow(window, 10, 500);
+	
 
 	cv::Mat ref_img = cv::Mat::zeros(IMG_H, IMG_W, CV_8UC4);
 	cv::Mat ref_img_disp = cv::Mat::zeros(DISPLAY_IMG_H, DISPLAY_IMG_W, CV_8UC4);

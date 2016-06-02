@@ -1,3 +1,4 @@
+#include <math.h>
 #include "DNA.h"
 
 
@@ -68,7 +69,7 @@ DNA::gen_random_polar_polygon(uint8_t n_vertices)
 	for (uint8_t i = 0; i < n_vertices; i++)
 	{
 		r.push_back(rand.gen_double(0.0, OFFSET));
-		angles.push_back(rand.gen_double(0.0, 2 * std::_Pi));
+		angles.push_back(rand.gen_double(0.0, 2 * M_PI));
 	}
 	std::sort(angles.begin(), angles.end());
 	double offset_x = rand.gen_double(OFFSET, IMG_W - OFFSET);
