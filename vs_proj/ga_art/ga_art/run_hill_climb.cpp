@@ -1,10 +1,16 @@
+#ifdef _MSC_VER
 #define _CRT_SECURE_NO_WARNINGS
+#endif
 #include <ctime>
 #include <iostream>
 #include <fstream>
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-#include <windows.h>
+	#include <windows.h>
+#else
+	#include <sys/types.h>
+	#include <sys/stat.h>
 #endif
+
 #include "run_hill_climb.h"
 #include "draw_polygons.h"
 
@@ -12,6 +18,11 @@
 using namespace Configs;
 extern ImageMode IMAGE_MODE;
 
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+static const std::string slash = "\\";
+#else
+static const std::string slash = "/";
+#endif
 
 void polygons_to_svg(const std::vector< std::shared_ptr<CartesianPolygon>>& polygons,
 	std::string file)
@@ -105,18 +116,20 @@ void run_hill_climb(const cv::Mat & image)
 {
 	//date and time will be the name of the log directory
 	std::string timedate = get_time_date_as_str();
-	std::string log_dir= "logs\\" + timedate;
+	std::string log_dir= "logs" + slash + timedate;
 
 	//stats.csv stores fitness, number selected models and other parameters 
 	//for every n generations
-	std::string logname =  log_dir + "\\" + "stats.csv";
+	std::string logname =  log_dir + slash + "stats.csv";
 	std::ofstream logfile;
-	std::string configname = log_dir + "\\" + "config.json";
+	std::string configname = log_dir + slash + "config.json";
 	std::ofstream config_file;
 	if (LOGGING)
 	{
 		#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
 		CreateDirectory(log_dir.c_str(), NULL);
+		#else
+		mkdir(log_dir.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 		#endif
 		logfile.open(logname, std::ios::out | std::ios::trunc);
 		if (!logfile.is_open())
@@ -140,7 +153,7 @@ void run_hill_climb(const cv::Mat & image)
 	char window[] = "Genetic Art";
 	cv::namedWindow(window);
 	// cv::moveWindow(window, 10, 500);
-	
+
 
 	cv::Mat ref_img = cv::Mat::zeros(IMG_H, IMG_W, CV_8UC4);
 	cv::Mat ref_img_disp = cv::Mat::zeros(DISPLAY_IMG_H, DISPLAY_IMG_W, CV_8UC4);
@@ -199,9 +212,9 @@ void run_hill_climb(const cv::Mat & image)
 			draw_polygons(hill_climbing.dna().polygons(),
 				generated_raster, &scale);
 			cv::cvtColor(generated_raster, generated_raster, CV_BGRA2BGR);
-			cv::imwrite(log_dir + "\\" +
+			cv::imwrite(log_dir + slash +
 				"img_" + std::to_string(i) + ".png", generated_raster);
-			polygons_to_svg(hill_climbing.dna().polygons(), log_dir + "\\" +
+			polygons_to_svg(hill_climbing.dna().polygons(), log_dir + slash +
 				"svg_" + std::to_string(i) + ".svg");
 		}
 

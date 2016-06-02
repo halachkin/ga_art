@@ -1,5 +1,5 @@
 #ifndef HILL_CLIMBING_H
-#define HILL_ClIMBING_H
+#define HILL_CLIMBING_H
 
 #include <vector>
 #include <opencv2/core/core.hpp>
@@ -9,9 +9,8 @@
 class HillClimbing
 {
 private:
-
-	DNA _current_dna;
 	const cv::Mat & _ref_img;
+	DNA _current_dna;
 
 public:
 	HillClimbing(const cv::Mat & ref_img);
