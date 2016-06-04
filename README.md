@@ -6,11 +6,11 @@ Just another [EvoLisa](https://rogeralsing.com/2008/12/16/evolisa-optimizations-
 
 Authors: Aliaksei Halachkin, Denis Fedor
 
- ### Requirements 
+### Requirements 
       OpenCV 2.4.11 
       Visual Studio 2015 on Windows, clang-3.8 + cmake on Linux
 
- ### Building on Linux
+### Building on Linux
 ```bash
 cd vs_proj/ga_art/ga_art
 make
