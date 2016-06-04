@@ -53,8 +53,6 @@ public:
 	CartesianPolygon& set_color(int channel, double value);
 	CartesianPolygon& set_alpha(double alpha);
 
-	//will crossover this with parent and save child into this	
-	CartesianPolygon& crossover(CartesianPolygon& parent2);
 	virtual void mutate_point();
 	virtual void mutation_position();
 	virtual void mutate_color();
@@ -102,8 +100,6 @@ public:
 	PolarPolygon& set_offset_x(double x);
 	PolarPolygon& set_offset_y(double y);
 
-
-	CartesianPolygon& crossover(CartesianPolygon& parent2);
 	virtual void mutate_point();
 	virtual void mutation_position();
 	virtual void mutate_color();

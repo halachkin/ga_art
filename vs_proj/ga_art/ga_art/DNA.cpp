@@ -1,3 +1,4 @@
+#define _USE_MATH_DEFINES
 #include <math.h>
 #include "DNA.h"
 
@@ -81,10 +82,7 @@ DNA::gen_random_polar_polygon(uint8_t n_vertices)
 }
 
 DNA::DNA(DnaMode dna_mode) :
-_dna_mode(dna_mode)
-{
-	
-}
+_dna_mode(dna_mode) { }
 
 DNA::DNA(std::size_t n_polygons,
 	     uint8_t n_vertices,
@@ -142,7 +140,6 @@ const DnaMode & DNA::dna_mode() const
 {
 	return _dna_mode;
 }
-
 
 const std::vector< std::shared_ptr<CartesianPolygon>>& DNA::polygons() const
 {
@@ -218,7 +215,6 @@ int DNA::mutate()
 		}
 
 	}
-
 	_fitness_computed = false;
 	_raster.release();
 	return mutation_type;

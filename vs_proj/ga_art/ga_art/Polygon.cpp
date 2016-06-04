@@ -1,5 +1,6 @@
 
 #include <stdexcept>
+#define _USE_MATH_DEFINES
 #include <math.h>
 
 #include "Random.h"
@@ -69,12 +70,6 @@ CartesianPolygon & CartesianPolygon::set_alpha(double alpha)
 }
 
 
-
-CartesianPolygon & CartesianPolygon::crossover(CartesianPolygon & parent2)
-{
-	//TODO
-	return *this;
-}
 
 void CartesianPolygon::mutate_point()
 {
@@ -221,12 +216,6 @@ PolarPolygon & PolarPolygon::set_offset_y(double y)
 }
 
 
-CartesianPolygon & PolarPolygon::crossover(CartesianPolygon & parent2)
-{
-	//TODO
-	return *this;
-}
-
 void PolarPolygon::mutate_point()
 {
 	int idx = Random().gen_int(0, this->n_vertices() - 1);
@@ -260,18 +249,3 @@ void PolarPolygon::mutate_alpha()
 {
 	this->set_alpha(this->color()[3] + Random().gen_double(-0.1, 0.1));
 }
-
-
-
-
-
-
-
-
-
-		
-
-                  
-
-
-

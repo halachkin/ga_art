@@ -16,8 +16,20 @@ int main(int argc, char *argv[])
 	if (argc != 3)
 		return -1;
 
-	Configs::load_configs(argv[1]);
+	try
+	{
+		Configs::load_configs(argv[1]);
+	}
+	catch (...) // catch-all handler
+	{
+		std::cout << "Could not read config file" << std::endl;
+	}
 	cv::Mat image = cv::imread(argv[2], CV_LOAD_IMAGE_UNCHANGED);
+	if (!image.data)    // Check for invalid input
+	{
+		std::cout << "Could not open or find the image" << std::endl;
+		return -1;
+	}
 	switch (image.channels()) 
 	{
 		default:
@@ -29,11 +41,6 @@ int main(int argc, char *argv[])
 			break;
 	}
 
-	if (!image.data)    // Check for invalid input
-	{
-		std::cout << "Could not open or find the image" << std::endl;
-		return -1;
-	}
 
 	run_hill_climb(image);
 	//hill_climb_time_meas();
