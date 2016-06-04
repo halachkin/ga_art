@@ -15,8 +15,8 @@ private:
 public:
 	HillClimbing(const cv::Mat & ref_img);
 
-	unsigned int n_generation;
-	unsigned int n_selected;
+	unsigned int n_generation = 0;
+	unsigned int n_selected = 0;
 	unsigned int mutation_selected[7] = { 0 };
 	std::size_t n_polygons = 0;
 
