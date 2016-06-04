@@ -250,5 +250,5 @@ _Pvt_Extensions
 .idea/
 *.sln.iml
 
-materials
-bin
+materials/*
+bin/*
