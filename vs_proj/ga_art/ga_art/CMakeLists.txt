@@ -16,6 +16,7 @@ set(HEADER_FILES
 	draw_polygons.h
     fitness.h
 	json.hpp
+	utils.h
 	run_hill_climb.h
     )
 
@@ -26,6 +27,7 @@ set(SOURCE_FILES
 	Polygon.cpp
 	draw_polygons.cpp
 	fitness.cpp
+	utils.cpp
 	run_hill_climb.cpp
     )
 
